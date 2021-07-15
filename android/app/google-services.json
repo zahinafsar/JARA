@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "566352919108",
+    "firebase_url": "https://jara-computers-default-rtdb.firebaseio.com",
+    "project_id": "jara-computers",
+    "storage_bucket": "jara-computers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566352919108:android:931fbc63a1255065ba5a11",
+        "android_client_info": {
+          "package_name": "com.helloworld"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566352919108-f6q68a3soqkl3kqlkhg9n5ubm6al2g59.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.helloworld",
+            "certificate_hash": "2ffb5649d309ec4aed2ddb2f486b7e752e89b2b6"
+          }
+        },
+        {
+          "client_id": "566352919108-3hc45nbqj30v8len3fgpdnm6smaut4ij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDySzlu0jzXBG620B-DsFpZ6xMKmxLYyZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566352919108-3hc45nbqj30v8len3fgpdnm6smaut4ij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
