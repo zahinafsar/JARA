@@ -13,8 +13,9 @@ import {
 } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {StyleSheet, View, Image, StatusBar, Dimensions} from 'react-native';
+import {StyleSheet, View, Image, Dimensions} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const TestLogo = props => {
   return (
@@ -87,20 +88,21 @@ const Home = ({navigation}) => {
     );
   };
 
-  const SCard = ({title, img}) => {
+  const SCard = ({title, img, onClick}) => {
     return (
-      <Card style={styles.card}>
-        <View style={styles.imgWrapper}>
-          <Image style={styles.img} source={img} />
-        </View>
-        <Text style={styles.CardText}>{title}</Text>
-      </Card>
+      <TouchableOpacity onPress={onClick}>
+        <Card style={styles.card}>
+          <View style={styles.imgWrapper}>
+            <Image style={styles.img} source={img} />
+          </View>
+          <Text style={styles.CardText}>{title}</Text>
+        </Card>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#f8eee4'}}>
-      <StatusBar backgroundColor="#003a1ded" />
+    <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <Layout style={styles.container} level="1">
@@ -134,6 +136,7 @@ const Home = ({navigation}) => {
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <View style={{flexDirection: 'row'}}>
             <SCard
+              onClick={() => navigation.navigate('Computer')}
               title="Computer Service"
               img={require('../assets/services/computer.png')}
             />
@@ -183,7 +186,7 @@ const Home = ({navigation}) => {
           </View>
         </View>
       </ApplicationProvider>
-    </View>
+    </>
   );
 };
 

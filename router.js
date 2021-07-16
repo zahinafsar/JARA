@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './screens/Home';
 import Chat from './screens/chat';
+import Computer from './screens/services/coputer';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ function Router() {
             title: 'Live Chat',
           }}
         />
+        <Stack.Screen name="Computer" component={Computer} />
       </Stack.Navigator>
     </NavigationContainer>
   );

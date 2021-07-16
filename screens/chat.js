@@ -1,21 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState, useCallback, useEffect, useContext} from 'react';
 import {GiftedChat} from 'react-native-gifted-chat';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Context} from '../store';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
-  const [token, setToken] = React.useState('');
+  const [state, setState] = useContext(Context);
 
-  async function isLoggrfIn() {
-    const value = await AsyncStorage.getItem('uid');
-    if (value) {
-      setToken(value);
-    }
+  useEffect(() => {
     const subscribe = firestore()
       .collection('chat')
-      .doc(token)
+      .doc(state.uid)
       .collection('messages')
       .orderBy('createdAt', 'asc')
       .onSnapshot(data => {
@@ -35,16 +32,12 @@ function Chat() {
         });
       });
     return () => subscribe();
-  }
-
-  useEffect(() => {
-    isLoggrfIn();
   }, []);
 
   const onSend = useCallback((message = []) => {
     firestore()
       .collection('chat')
-      .doc(token)
+      .doc(state.uid)
       .collection('messages')
       .add({...message[0], createdAt: firestore.FieldValue.serverTimestamp()});
   }, []);
@@ -55,7 +48,8 @@ function Chat() {
       onSend={message => onSend(message)}
       user={{
         _id: 2,
-        name: 'client',
+        name: 'Admin',
+        avatar: require('../assets/logo.png'),
       }}
     />
   );
