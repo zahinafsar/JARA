@@ -37,15 +37,19 @@ function ContactButtons({navigation}) {
             <Button
               status="info"
               style={{width: '49%'}}
-              onPress={() => Linking.openURL('tel: 01819459974')}>
+              onPress={() => {
+                Linking.openURL('tel: 01819459974');
+                setVisible(false);
+              }}>
               Call Offline
             </Button>
             <Button
               status="info"
               style={{width: '49%'}}
-              onPress={() =>
-                Linking.openURL('whatsapp://send?phone=+8801819459974')
-              }>
+              onPress={() => {
+                Linking.openURL('whatsapp://send?phone=+8801819459974');
+                setVisible(false);
+              }}>
               Call Online
             </Button>
           </View>
