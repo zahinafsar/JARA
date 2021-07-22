@@ -47,9 +47,9 @@ function Chat() {
       messages={messages}
       onSend={message => onSend(message)}
       user={{
-        _id: 2,
-        name: 'Admin',
-        avatar: require('../assets/logo.png'),
+        _id: 1,
+        name: 'Client',
+        // avatar: require('../assets/logo.png'),
       }}
     />
   );

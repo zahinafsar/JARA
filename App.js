@@ -5,6 +5,9 @@ import Loading from './screens/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Store, {Context} from './store';
 import {StatusBar} from 'react-native';
+import {ApplicationProvider} from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
+
 function Main() {
   const [state, setState] = useContext(Context);
   useEffect(() => {
@@ -18,14 +21,13 @@ function Main() {
     }
     isLoggedIn();
   }, [setState, state]);
-
-  if (state.loggedIn === 'loading') {
-    return <Loading />;
-  } else if (state.loggedIn === 'loggedIn') {
-    return <Router />;
-  } else {
-    return <Login />;
-  }
+  return (
+    <ApplicationProvider {...eva} theme={eva.light}>
+      {state.loggedIn === 'loading' ? <Loading /> : <></>}
+      {state.loggedIn === 'loggedIn' ? <Router /> : <></>}
+      {state.loggedIn === 'notLoggedIn' ? <Login /> : <></>}
+    </ApplicationProvider>
+  );
 }
 
 function App() {
