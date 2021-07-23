@@ -1,3 +1,4 @@
 export const theme = {
-  color_green: '#026d37ed',
+  color_primary: '#0a8f06',
+  light_text: 'white',
 };

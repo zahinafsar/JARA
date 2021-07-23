@@ -33,7 +33,7 @@ function Main() {
 function App() {
   return (
     <Store>
-      <StatusBar backgroundColor="#003a1ded" />
+      <StatusBar backgroundColor="#055603" />
       <Main />
     </Store>
   );

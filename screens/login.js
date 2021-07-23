@@ -5,7 +5,8 @@ import {Input, Button, Spinner} from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Context} from '../store';
-
+import firestore from '@react-native-firebase/firestore';
+import { theme } from '../theme';
 function Login() {
   const [number, setNumber] = React.useState('');
   const [pin, setPin] = React.useState('');
@@ -39,6 +40,9 @@ function Login() {
     try {
       await confirm.confirm(pin);
       await AsyncStorage.setItem('uid', number);
+      await firestore().collection('users').doc(number).set({
+        name: '',
+      });
       setState({...state, loggedIn: 'loggedIn'});
     } catch (error) {
       Alert.alert('Invalid Pin');
@@ -53,7 +57,7 @@ function Login() {
       style={{
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: '#003a1ded',
+        backgroundColor: theme.color_primary,
       }}>
       <View
         style={{

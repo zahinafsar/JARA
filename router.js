@@ -19,11 +19,12 @@ function Router() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: theme.color_green,
+            backgroundColor: theme.color_primary,
           },
-          headerTintColor: '#fff',
+          headerTitleAlign: 'center',
+          headerTintColor: theme.light_text,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: '100',
           },
         }}>
         <Stack.Screen

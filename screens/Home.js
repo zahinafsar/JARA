@@ -11,7 +11,7 @@ import {
   Button,
 } from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {StyleSheet, View, Image, Dimensions} from 'react-native';
+import {StyleSheet, View, Image, Dimensions, ScrollView} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ContactButtons from '../components/contactButtons';
@@ -99,11 +99,11 @@ const Home = ({navigation}) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <IconRegistry icons={EvaIconsPack} />
       <Layout style={styles.container} level="1">
         <TopNavigation
-          style={{backgroundColor: theme.color_green}}
+          style={{backgroundColor: theme.color_primary}}
           alignment="center"
           title={<Text style={styles.headerTitle}>JARA</Text>}
           accessoryLeft={renderBackAction}
@@ -121,15 +121,47 @@ const Home = ({navigation}) => {
         />
       </View>
       <View style={styles.socialBtn}>
-        <Button style={styles.button} status="info">
+        {/* <Button style={styles.button} status="info">
           <View>
             <Text style={{color: 'white', fontSize: 13.4}}>
               Membership <ArrowIcon /> (১০০০ টাকায় ১ বছরের Home Service)
             </Text>
           </View>
-        </Button>
+        </Button> */}
+        <TouchableOpacity>
+          <Card
+            style={{
+              alignItems: 'center',
+              backgroundColor: theme.color_primary,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 17,
+                fontWeight: 'bold',
+                marginBottom: 5,
+                color: theme.light_text,
+              }}>
+              Membership
+            </Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                opacity: 0.7,
+                color: theme.light_text,
+              }}>
+              ১০০০ টাকায় ১ বছরের Home Service
+            </Text>
+          </Card>
+        </TouchableOpacity>
       </View>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingBottom: 20,
+        }}>
         <View style={{flexDirection: 'row'}}>
           <ServiceCard
             onClick={() => {
@@ -180,7 +212,7 @@ const Home = ({navigation}) => {
         </View>
         <ContactButtons navigation={navigation} />
       </View>
-    </>
+    </ScrollView>
   );
 };
 
@@ -217,7 +249,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: 'white',
+    color: theme.light_text,
   },
 });
 

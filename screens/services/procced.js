@@ -11,8 +11,8 @@ import {
 import TermsOfUse from './termOfUse';
 import AppointUs from './appointUs';
 
-const leftIcon = props => <Icon {...props} name="arrow-left-outline" />;
-const rightIcon = props => <Icon {...props} name="arrow-right-outline" />;
+const leftIcon = props => <Icon {...props} name="arrow-back-outline" />;
+const rightIcon = props => <Icon {...props} name="arrow-forward-outline" />;
 
 function Procced({navigation}) {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -36,18 +36,17 @@ function Procced({navigation}) {
           <AppointUs navigation={navigation} />
         </Layout>
       </ViewPager>
-      {selectedIndex ? (
+      {/* {selectedIndex ? (
         <Button
           onPress={() => setSelectedIndex(selectedIndex - 1)}
           size="small"
           style={{...styles.button, left: 20}}
           status="warning"
-          accessoryLeft={leftIcon}>
-          Back
-        </Button>
+          accessoryLeft={leftIcon}
+        />
       ) : (
         <></>
-      )}
+      )} */}
       {selectedIndex === 0 ? (
         <Button
           onPress={() => setSelectedIndex(selectedIndex + 1)}
@@ -55,9 +54,8 @@ function Procced({navigation}) {
           size="small"
           style={{...styles.button, right: 20}}
           status="info"
-          accessoryRight={rightIcon}>
-          Next
-        </Button>
+          accessoryRight={rightIcon}
+        />
       ) : (
         <></>
       )}
@@ -71,6 +69,8 @@ const styles = StyleSheet.create({
   },
   button: {
     position: 'absolute',
+    borderRadius: 50,
+    height: 50,
     bottom: 30,
   },
 });
