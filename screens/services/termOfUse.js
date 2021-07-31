@@ -7,19 +7,16 @@ function TermsOfUse(props) {
   const windowHeight = Dimensions.get('window').height;
   return (
     <View>
-      <Text category="h4">Terms & Conditions</Text>
+      {/* <Text category="h4">Terms & Conditions</Text> */}
       <ScrollView
         style={{
-          height: windowHeight - 200,
+          height: windowHeight - 110,
           borderWidth: 1,
           borderColor: '#989898',
           padding: 10,
-          marginTop: 15,
+          margin: 15,
         }}>
-        <Text
-          style={{marginBottom: 5}}
-          category="h6"
-          style={{marginBottom: 10}}>
+        <Text style={{marginBottom: 5}} category="h6">
           Welcome to JARA App!
         </Text>
 
@@ -333,6 +330,7 @@ function TermsOfUse(props) {
           damage of any nature.
         </Text>
       </ScrollView>
+      <Button style={{marginHorizontal: 10, marginBottom: 30}}>Next</Button>
     </View>
   );
 }

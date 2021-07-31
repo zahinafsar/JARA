@@ -6,7 +6,9 @@ import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Context} from '../store';
 import firestore from '@react-native-firebase/firestore';
-import { theme } from '../theme';
+import {theme} from '../theme';
+import messaging from '@react-native-firebase/messaging';
+
 function Login() {
   const [number, setNumber] = React.useState('');
   const [pin, setPin] = React.useState('');
@@ -35,6 +37,7 @@ function Login() {
   }
 
   async function confirmCode() {
+    // console.log(state.token);
     setDisabled(true);
     setLoader(true);
     try {
@@ -42,6 +45,7 @@ function Login() {
       await AsyncStorage.setItem('uid', number);
       await firestore().collection('users').doc(number).set({
         name: '',
+        token: state.token,
       });
       setState({...state, loggedIn: 'loggedIn'});
     } catch (error) {

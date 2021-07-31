@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, PermissionsAndroid} from 'react-native';
 import {
   Text,
   Input,
@@ -13,7 +13,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 
-function AppointUs({navigation}) {
+const Confirm = ({navigation}) => {
+  // console.log('rerenders..');
   const initialValue = {
     name: '',
     email: '',
@@ -43,7 +44,7 @@ function AppointUs({navigation}) {
       (form.location === '' && form.lat === '') ||
       form.issue === ''
     ) {
-      alert('Fillup Required Fields!')
+      alert('Fillup Required Fields!');
       return;
     }
     try {
@@ -54,7 +55,22 @@ function AppointUs({navigation}) {
       alert(error);
     }
   };
-  const getLocation = () => {
+  // async function requestLocationPermission() {
+  //   const granted = await PermissionsAndroid.request(
+  //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+  //     {
+  //       title: 'Location Permission',
+  //       message: 'JARA needs access to your location',
+  //     },
+  //   );
+
+  //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  function getLocation() {
     if (form.lat) {
       setForm({...form, lat: '', long: ''});
     } else {
@@ -64,11 +80,13 @@ function AppointUs({navigation}) {
         setForm({...form, lat: currentLatitude, long: currentLongitude});
       });
     }
-  };
+  }
 
   return (
     <ScrollView>
       <View style={{margin: 10}}>
+        <ContactButtons navigation={navigation} />
+        <Text style={{ textAlign: 'center' }}>Or</Text>
         <Text style={styles.inputLabel}>Name</Text>
         <Input
           style={styles.input}
@@ -109,8 +127,8 @@ function AppointUs({navigation}) {
           />
           <Button
             disabled={form.location ? true : false}
-            onPress={getLocation}
-            style={{width: 180, marginBottom: 5, borderRadius: 30}}>
+            onPress={() => getLocation()}
+            style={{width: 200, marginBottom: 5, borderRadius: 30}}>
             <Text category="c1" style={{color: 'white'}}>
               {form.lat ? 'Use Custom Location' : 'Use Geographic Location'}
             </Text>
@@ -119,7 +137,6 @@ function AppointUs({navigation}) {
         <Text style={styles.inputLabel}>Select Service</Text>
         <Select
           style={styles.input}
-          placeholder={form.related_service}
           value={form.related_service}
           onSelect={index =>
             setForm({...form, related_service: services[index - 1].title})
@@ -149,15 +166,12 @@ function AppointUs({navigation}) {
           onChangeText={value => setForm({...form, message: value})}
         />
       </View>
-      <Button onPress={submit} style={{marginHorizontal: 10}}>
+      <Button onPress={submit} style={{marginHorizontal: 10, marginBottom: 30}}>
         Submit
       </Button>
-      <Divider style={{marginVertical: 20}} />
-      <Text style={{textAlign: 'center'}}>Or</Text>
-      <ContactButtons navigation={navigation} />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   input: {
@@ -169,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppointUs;
+export default Confirm;

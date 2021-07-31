@@ -9,8 +9,12 @@ import CCTV from './screens/services/page/cctv';
 import Printer from './screens/services/page/printer';
 import Network from './screens/services/page/network';
 import Web from './screens/services/page/web';
-import Procced from './screens/services/procced';
+// import Procced from './screens/services/procced';
 import {theme} from './theme';
+import Membership from './screens/Membership';
+import Confirm from './screens/services/confirm';
+import TermsOfUse from './screens/services/termOfUse';
+import Contacts from './screens/Contacts';
 const Stack = createStackNavigator();
 
 function Router() {
@@ -82,10 +86,38 @@ function Router() {
           }}
         />
         <Stack.Screen
+          name="membership"
+          component={Membership}
+          options={{
+            title: 'Membership Plan',
+          }}
+        />
+        {/* <Stack.Screen
           name="procced"
           component={Procced}
           options={{
             title: 'Confirmation',
+          }}
+        /> */}
+        <Stack.Screen
+          name="confirm"
+          component={Confirm}
+          options={{
+            title: 'Confirmation',
+          }}
+        />
+        <Stack.Screen
+          name="terms"
+          component={TermsOfUse}
+          options={{
+            title: 'Terms and Conditions',
+          }}
+        />
+        <Stack.Screen
+          name="contacts"
+          component={Contacts}
+          options={{
+            title: 'Contacts',
           }}
         />
       </Stack.Navigator>

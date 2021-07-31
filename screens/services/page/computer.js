@@ -12,7 +12,7 @@ import {
 import {theme} from '../../../theme';
 
 const StarIcon = props => <Icon {...props} name="star" />;
-
+const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 // const InfoBtn = props => {
 //   return (
 //     <>
@@ -27,21 +27,27 @@ const StarIcon = props => <Icon {...props} name="star" />;
 // };
 
 const hardware = [
-  'Repair broken PC parts',
-  'Find unknown issues',
-  'Fix unknows issues',
+  'Computer assembling',
+  'Repair hardware components',
+  'Find & Fix unknown issues',
   'PC cleaning',
-  'PC setup',
-  'Change PC setup',
+  'Upgrade components',
 ];
 
 const software = [
-  'Oparation System upgread',
-  'Fix virus problem',
-  'Data recovary',
+  'Oparation System upgrade',
+  'Oparation System installation',
+  'Software installation',
   'Install drivers',
-  'Repair drivers',
-  'Software install',
+  'Fix virus problem',
+  'Data recovery',
+];
+
+const rate = [
+  'Onsite Service = 600 tk',
+  '2nd Time Onsite Service = 300 tk',
+  'In House Service = 400 tk',
+  'Online Remote Support = 300 tk',
 ];
 
 function Computer({navigation}) {
@@ -50,7 +56,7 @@ function Computer({navigation}) {
       <>
         {data.map(a => {
           return (
-            <>
+            <View key={a}>
               <View style={{flexDirection: 'row'}}>
                 <Icon
                   style={{height: 20, width: 20, marginRight: 15}}
@@ -60,7 +66,7 @@ function Computer({navigation}) {
                 <Text>{a}</Text>
               </View>
               <Divider style={{marginVertical: 13}} />
-            </>
+            </View>
           );
         })}
       </>
@@ -69,14 +75,12 @@ function Computer({navigation}) {
   return (
     <>
       <ScrollView style={{}}>
-        <View style={{flex: 1, alignItems: 'center', marginVertical: 30}}>
+        <View style={{alignItems: 'center'}}>
           <Image
+            style={{width: 250, height: 250, resizeMode: 'contain'}}
             source={require('../../../assets/services/page/computer.png')}
           />
         </View>
-        {/* <Text style={styles.title} category="h6">
-          Why this Service
-        </Text> */}
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           About this service
         </Button>
@@ -105,10 +109,25 @@ function Computer({navigation}) {
         <Card style={styles.card}>
           <RenderItem data={software} />
         </Card>
+        <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
+          Service Rate
+        </Button>
+        <Card style={styles.card}>
+          <RenderItem data={rate} />
+        </Card>
+        <Button
+          onPress={() => {
+            navigation.navigate('membership');
+          }}
+          // accessoryRight={Arrow}
+          status="warning"
+          style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
+          ১ বছরের Home Service মাত্র ১০০০/= টাকা
+        </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('procced')}>
-          Procced
+        <Button status="warning" onPress={() => navigation.navigate('confirm')}>
+          Next
         </Button>
       </View>
     </>
@@ -121,7 +140,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginTop: 10,
     margin: 13,
-    backgroundColor: theme.color_primary,
+    backgroundColor: theme.color_secondary,
     color: theme.light_text,
     borderColor: 'white',
   },

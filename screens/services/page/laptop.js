@@ -28,18 +28,18 @@ const RightArrow = props => <Icon {...props} name="arrow-right-outline" />;
 // };
 const hardware = [
   'Repair broken parts',
-  'Find and fix unknows issues',
+  'Find & fix unknown issues',
   'Laptop cleaning',
-  'Change Laptop Parts',
+  'Change laptop parts',
 ];
 
 const software = [
-  'Oparation System upgread',
-  'Fix virus problem',
-  'Data recovary',
+  'Oparation System upgrade',
+  'Oparation System installation',
+  'Software installation',
   'Install drivers',
-  'Repair drivers',
-  'Software install',
+  'Fix virus problem',
+  'Data recovery',
 ];
 
 function Laptop({navigation}) {
@@ -48,7 +48,7 @@ function Laptop({navigation}) {
       <>
         {data.map(a => {
           return (
-            <>
+            <View key={a}>
               <View style={{flexDirection: 'row'}}>
                 <Icon
                   style={{height: 20, width: 20, marginRight: 15}}
@@ -58,7 +58,7 @@ function Laptop({navigation}) {
                 <Text>{a}</Text>
               </View>
               <Divider style={{marginVertical: 13}} />
-            </>
+            </View>
           );
         })}
       </>
@@ -67,8 +67,11 @@ function Laptop({navigation}) {
   return (
     <>
       <ScrollView style={{}}>
-        <View style={{flex: 1, alignItems: 'center', marginVertical: 30}}>
-          <Image source={require('../../../assets/services/page/laptop.png')} />
+        <View style={{alignItems: 'center'}}>
+          <Image
+            style={{width: 250, height: 250, resizeMode: 'contain'}}
+            source={require('../../../assets/services/page/laptop.png')}
+          />
         </View>
         {/* <Text style={styles.title} category="h6">
           Why this Service
@@ -103,8 +106,8 @@ function Laptop({navigation}) {
         </Card>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('procced')}>
-          Procced
+        <Button status="warning" onPress={() => navigation.navigate('confirm')}>
+          Next
         </Button>
       </View>
     </>
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginTop: 10,
     margin: 13,
-    backgroundColor: theme.color_primary,
+    backgroundColor: theme.color_secondary,
     color: theme.light_text,
     borderColor: 'white',
   },

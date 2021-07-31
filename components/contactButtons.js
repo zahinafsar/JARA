@@ -4,7 +4,7 @@ import {Button, Icon, Modal, Card} from '@ui-kitten/components';
 
 const MessageIcon = props => <Icon {...props} name="message-square" />;
 const CallIcon = props => <Icon {...props} name="phone-call" />;
-
+const Close = props => <Icon {...props} name="close-outline" />;
 function ContactButtons({navigation}) {
   const [visible, setVisible] = React.useState(false);
   return (
@@ -12,7 +12,7 @@ function ContactButtons({navigation}) {
       <View style={styles.socialBtn}>
         <Button
           onPress={() => navigation.navigate('chat')}
-          style={{...styles.button}}
+          style={styles.button}
           status="warning"
           accessoryRight={MessageIcon}>
           Live Chat
@@ -36,22 +36,28 @@ function ContactButtons({navigation}) {
             }}>
             <Button
               status="info"
-              style={{width: '49%'}}
+              style={{width: '43%', elevation: 4}}
               onPress={() => {
-                Linking.openURL('tel: 01819459974');
+                navigation.navigate('contacts');
                 setVisible(false);
               }}>
-              Call Offline
+              Offline
             </Button>
             <Button
               status="info"
-              style={{width: '49%'}}
+              style={{width: '43%', elevation: 4}}
               onPress={() => {
                 Linking.openURL('whatsapp://send?phone=+8801819459974');
                 setVisible(false);
               }}>
-              Call Online
+              Online
             </Button>
+            <Button
+              status="warning"
+              style={{width: '8%', elevation: 4}}
+              accessoryLeft={Close}
+              onPress={() => setVisible(false)}
+            />
           </View>
         )}
       </View>
@@ -62,6 +68,9 @@ function ContactButtons({navigation}) {
 const styles = StyleSheet.create({
   socialBtn: {
     margin: 10,
+  },
+  button: {
+    elevation: 4,
   },
 });
 

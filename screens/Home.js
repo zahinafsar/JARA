@@ -16,6 +16,7 @@ import Carousel from 'react-native-snap-carousel';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ContactButtons from '../components/contactButtons';
 import {theme} from '../theme';
+import Ripple from 'react-native-material-ripple';
 const TestLogo = props => {
   return (
     <Image
@@ -42,22 +43,6 @@ const Home = ({navigation}) => {
       title: 'Item 1',
       text: 'Text 1',
     },
-    {
-      title: 'Item 2',
-      text: 'Text 2',
-    },
-    {
-      title: 'Item 3',
-      text: 'Text 3',
-    },
-    {
-      title: 'Item 4',
-      text: 'Text 4',
-    },
-    {
-      title: 'Item 5',
-      text: 'Text 5',
-    },
   ];
 
   const ArrowIcon = props => <Icon {...props} name="arrow-circle-right" />;
@@ -70,16 +55,14 @@ const Home = ({navigation}) => {
           justifyContent: 'center',
           borderRadius: 5,
           width: '100%',
-          height: 150,
+          height: 200,
           marginTop: 10,
           marginLeft: 10,
           marginRight: 10,
         }}>
         <Image
           style={styles.tinyLogo}
-          source={{
-            uri: 'https://onlinedegrees.mtu.edu/sites/default/files/styles/blogfeature_large/public/field/image/MTU_MSASMay.jpg?itok=DVapSpim',
-          }}
+          source={require('../assets/cover.png')}
         />
       </View>
     );
@@ -87,14 +70,16 @@ const Home = ({navigation}) => {
 
   const ServiceCard = ({title, img, onClick}) => {
     return (
-      <TouchableOpacity onPress={onClick}>
-        <Card style={styles.card}>
-          <View style={styles.imgWrapper}>
-            <Image style={styles.img} source={img} />
-          </View>
-          <Text style={styles.CardText}>{title}</Text>
-        </Card>
-      </TouchableOpacity>
+      <View>
+        <Ripple style={{margin: 5}} onPress={onClick}>
+          <Card style={styles.card}>
+            <View style={styles.imgWrapper}>
+              <Image style={styles.img} source={img} />
+            </View>
+            <Text style={styles.CardText}>{title}</Text>
+          </Card>
+        </Ripple>
+      </View>
     );
   };
 
@@ -121,14 +106,10 @@ const Home = ({navigation}) => {
         />
       </View>
       <View style={styles.socialBtn}>
-        {/* <Button style={styles.button} status="info">
-          <View>
-            <Text style={{color: 'white', fontSize: 13.4}}>
-              Membership <ArrowIcon /> (১০০০ টাকায় ১ বছরের Home Service)
-            </Text>
-          </View>
-        </Button> */}
-        <TouchableOpacity>
+        <Ripple
+          onPress={() => {
+            navigation.navigate('membership');
+          }}>
           <Card
             style={{
               alignItems: 'center',
@@ -147,14 +128,14 @@ const Home = ({navigation}) => {
             <Text
               style={{
                 textAlign: 'center',
-                fontSize: 12,
-                opacity: 0.7,
+                fontSize: 16,
+                opacity: 0.9,
                 color: theme.light_text,
               }}>
               ১০০০ টাকায় ১ বছরের Home Service
             </Text>
           </Card>
-        </TouchableOpacity>
+        </Ripple>
       </View>
       <View
         style={{
@@ -221,7 +202,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   card: {
-    margin: 5,
+    // margin: 5,
+    // elevation: 2,
     width: 160,
     justifyContent: 'center',
     alignItems: 'center',
