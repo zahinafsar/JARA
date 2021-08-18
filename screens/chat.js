@@ -142,7 +142,7 @@ function Chat() {
           )
         }
         // onPress={() => setNumberOfDoc(numberOfDoc + 15)}
-        onPress={() => getNext()}
+        onPress={() => (messages[0].createdAt ? getNext() : '')}
         size="tiny">
         <Text style={{fontSize: 10}}>load old messages</Text>
       </Button>

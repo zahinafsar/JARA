@@ -15,6 +15,7 @@ import Membership from './screens/Membership';
 import Confirm from './screens/services/confirm';
 import TermsOfUse from './screens/services/termOfUse';
 import Contacts from './screens/Contacts';
+import Call from './screens/call';
 const Stack = createStackNavigator();
 
 function Router() {
@@ -120,6 +121,7 @@ function Router() {
             title: 'Contacts',
           }}
         />
+        <Stack.Screen name="call" component={Call} options={{title: 'Admin'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

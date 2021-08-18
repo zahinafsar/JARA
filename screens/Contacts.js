@@ -1,14 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet, ScrollView, Linking} from 'react-native';
-import {
-  Button,
-  Card,
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Divider,
-} from '@ui-kitten/components';
+import {Button} from '@ui-kitten/components';
 
 const hardware = [
   'Contacts assembling',

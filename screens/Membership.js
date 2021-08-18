@@ -34,7 +34,9 @@ function Membership({navigation}) {
           />
         </View>
         <Button
-          onPress={() => {navigation.navigate('terms');}}
+          onPress={() => {
+            navigation.navigate('terms');
+          }}
           accessoryRight={Arrow}
           status="warning"
           style={{margin: 13, elevation: 5}}>

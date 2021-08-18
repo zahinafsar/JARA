@@ -7,7 +7,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Context} from '../store';
 import firestore from '@react-native-firebase/firestore';
 import {theme} from '../theme';
-import messaging from '@react-native-firebase/messaging';
 
 function Login() {
   const [number, setNumber] = React.useState('');
@@ -30,6 +29,7 @@ function Login() {
       setDisabled(false);
       setLoader(false);
     } catch (error) {
+      // console.log(error);
       setDisabled(false);
       Alert.alert('Something went wrong! Try again.');
       setLoader(false);
@@ -37,6 +37,7 @@ function Login() {
   }
 
   async function confirmCode() {
+    const token = await AsyncStorage.getItem('token');
     // console.log(state.token);
     setDisabled(true);
     setLoader(true);
@@ -45,10 +46,11 @@ function Login() {
       await AsyncStorage.setItem('uid', number);
       await firestore().collection('users').doc(number).set({
         name: '',
-        token: state.token,
+        token: token,
       });
       setState({...state, loggedIn: 'loggedIn'});
     } catch (error) {
+      console.log(error);
       Alert.alert('Invalid Pin');
       setDisabled(false);
       setLoader(false);

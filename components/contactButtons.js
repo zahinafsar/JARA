@@ -1,12 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, Linking} from 'react-native';
 import {Button, Icon, Modal, Card} from '@ui-kitten/components';
+import {Context} from '../store';
 
 const MessageIcon = props => <Icon {...props} name="message-square" />;
 const CallIcon = props => <Icon {...props} name="phone-call" />;
 const Close = props => <Icon {...props} name="close-outline" />;
 function ContactButtons({navigation}) {
   const [visible, setVisible] = React.useState(false);
+  const [state, setState] = React.useContext(Context);
   return (
     <View style={{marginTop: 10, width: '100%'}}>
       <View style={styles.socialBtn}>
@@ -47,8 +49,10 @@ function ContactButtons({navigation}) {
               status="info"
               style={{width: '43%', elevation: 4}}
               onPress={() => {
-                Linking.openURL('whatsapp://send?phone=+8801819459974');
+                // Linking.openURL('whatsapp://send?phone=+8801819459974');
                 setVisible(false);
+                navigation.navigate('call');
+                // setState({...state, loggedIn: 'callScreen'});
               }}>
               Online
             </Button>

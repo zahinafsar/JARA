@@ -24,6 +24,7 @@
     "@ui-kitten/components": "^5.1.0",
     "@ui-kitten/eva-icons": "^5.1.0",
     "@ui-kitten/metro-config": "^5.1.0",
+    "axios": "^0.21.1",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-gesture-handler": "^1.10.3",
@@ -34,7 +35,8 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.4.0",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "^12.1.1",
+    "react-native-webrtc": "^1.92.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
