@@ -115,7 +115,7 @@ function Computer({navigation}) {
         <Card style={styles.card}>
           <RenderItem data={rate} />
         </Card>
-        <Button
+        {/* <Button
           onPress={() => {
             navigation.navigate('membership');
           }}
@@ -123,7 +123,7 @@ function Computer({navigation}) {
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
-        </Button>
+        </Button> */}
       </ScrollView>
       <View>
         <Button status="warning" onPress={() => navigation.navigate('confirm')}>

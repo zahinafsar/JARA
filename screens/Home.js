@@ -17,18 +17,29 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ContactButtons from '../components/contactButtons';
 import {theme} from '../theme';
 import Ripple from 'react-native-material-ripple';
-const TestLogo = props => {
-  return (
+const Home = ({navigation}) => {
+  // const renderOptionAction = () => (
+  //   <TopNavigationAction
+  //     icon={OptionIcon}
+  //   />
+  // );
+  const TestLogo = () => (
     <Image
       style={{width: 40, height: 40}}
       source={require('../assets/logo.png')}
     />
   );
-};
+  const OptionIcon = () => (
+    <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+      <Icon
+        style={{width: 30, height: 30}}
+        fill="white"
+        name="more-vertical-outline"
+      />
+    </TouchableOpacity>
+  );
 
-const Home = ({navigation}) => {
   const renderBackAction = () => <TopNavigationAction icon={TestLogo} />;
-
   const [activeIndex, setActiveIndex] = useState(0);
   const windowWidth = Dimensions.get('window').width;
 
@@ -44,8 +55,6 @@ const Home = ({navigation}) => {
       text: 'Text 1',
     },
   ];
-
-  const ArrowIcon = props => <Icon {...props} name="arrow-circle-right" />;
 
   const RenderItem = ({item, index}) => {
     return (
@@ -92,6 +101,7 @@ const Home = ({navigation}) => {
           alignment="center"
           title={<Text style={styles.headerTitle}>JARA</Text>}
           accessoryLeft={renderBackAction}
+          accessoryRight={OptionIcon}
         />
       </Layout>
       <View>
@@ -113,7 +123,7 @@ const Home = ({navigation}) => {
           <Card
             style={{
               alignItems: 'center',
-              backgroundColor: theme.color_primary,
+              backgroundColor: theme.color_tertiary,
             }}>
             <Text
               style={{
@@ -133,6 +143,38 @@ const Home = ({navigation}) => {
                 color: theme.light_text,
               }}>
               ১০০০ টাকায় ১ বছরের Home Service
+            </Text>
+          </Card>
+        </Ripple>
+      </View>
+      <View style={styles.socialBtn}>
+        <Ripple
+          onPress={() => {
+            navigation.navigate('monthly');
+          }}>
+          <Card
+            style={{
+              alignItems: 'center',
+              backgroundColor: theme.color_secondary,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 17,
+                fontWeight: 'bold',
+                marginBottom: 5,
+                color: theme.light_text,
+              }}>
+              Monthly Service
+            </Text>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 16,
+                opacity: 0.9,
+                color: theme.light_text,
+              }}>
+              Total Office IT Solution(Contract Basis)
             </Text>
           </Card>
         </Ripple>

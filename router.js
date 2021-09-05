@@ -13,12 +13,19 @@ import Web from './screens/services/page/web';
 import {theme} from './theme';
 import Membership from './screens/Membership';
 import Confirm from './screens/services/confirm';
-import TermsOfUse from './screens/services/termOfUse';
+import TermsOfUse from './screens/services/termForMember';
 import Contacts from './screens/Contacts';
 import Call from './screens/call';
+import Profile from './screens/profile';
+import Login from './screens/login';
 const Stack = createStackNavigator();
+import {Context} from './store';
+import MonthlyService from './screens/MonthlyService';
+import TermsForMember from './screens/services/termForMember';
+import TermsForMonthly from './screens/services/termForMonthly';
 
 function Router() {
+  const [state] = React.useContext(Context);
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -39,8 +46,9 @@ function Router() {
         />
         <Stack.Screen
           name="chat"
-          component={Chat}
+          component={state.uid ? Chat : Login}
           options={{
+            headerShown: state.uid ? true : false,
             title: 'Live Chat',
           }}
         />
@@ -93,6 +101,13 @@ function Router() {
             title: 'Membership Plan',
           }}
         />
+        <Stack.Screen
+          name="monthly"
+          component={MonthlyService}
+          options={{
+            title: 'Monthly Service',
+          }}
+        />
         {/* <Stack.Screen
           name="procced"
           component={Procced}
@@ -102,9 +117,24 @@ function Router() {
         /> */}
         <Stack.Screen
           name="confirm"
-          component={Confirm}
+          component={state.uid ? Confirm : Login}
           options={{
+            headerShown: state.uid ? true : false,
             title: 'Confirmation',
+          }}
+        />
+        <Stack.Screen
+          name="termsMember"
+          component={TermsForMember}
+          options={{
+            title: 'Terms and Conditions',
+          }}
+        />
+        <Stack.Screen
+          name="termsMonthly"
+          component={TermsForMonthly}
+          options={{
+            title: 'Terms and Conditions',
           }}
         />
         <Stack.Screen
@@ -114,14 +144,22 @@ function Router() {
             title: 'Terms and Conditions',
           }}
         />
+        <Stack.Screen name="contacts" component={Contacts} />
         <Stack.Screen
-          name="contacts"
-          component={Contacts}
+          name="profile"
+          component={state.uid ? Profile : Login}
           options={{
-            title: 'Contacts',
+            headerShown: state.uid ? true : false,
           }}
         />
-        <Stack.Screen name="call" component={Call} options={{title: 'Admin'}} />
+        <Stack.Screen
+          name="call"
+          component={state.uid ? Call : Login}
+          options={{
+            headerShown: state.uid ? true : false,
+            title: 'Admin',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

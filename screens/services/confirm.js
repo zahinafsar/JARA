@@ -4,7 +4,7 @@ import {
   Text,
   Input,
   Button,
-  Divider,
+  Spinner,
   Select,
   SelectItem,
 } from '@ui-kitten/components';
@@ -12,20 +12,41 @@ import ContactButtons from '../../components/contactButtons';
 import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const initialValue = {
+  name: '',
+  email: '',
+  phone: '',
+  location: '',
+  related_service: '',
+  issue: '',
+  message: '',
+  lat: '',
+  long: '',
+};
 
 const Confirm = ({navigation}) => {
+  const [form, setForm] = React.useState(initialValue);
+  const [savedLocation, setLocation] = React.useState();
+  const [loader, setLoader] = React.useState(false);
+  React.useEffect(() => {
+    async function getUser() {
+      const dataObj = await AsyncStorage.getItem('user');
+      if (dataObj) {
+        const {name, email, phone, location} = JSON.parse(dataObj);
+        setLocation(location);
+        setForm({...form, name, email, phone, location});
+        // console.log(name);
+        // initialValue.name = name;
+        // initialValue.email = email;
+        // initialValue.phone = phone;
+        // initialValue.location = location;
+      }
+    }
+    getUser();
+  }, []);
   // console.log('rerenders..');
-  const initialValue = {
-    name: '',
-    email: '',
-    phone: '',
-    location: '',
-    related_service: '',
-    issue: '',
-    message: '',
-    lat: '',
-    long: '',
-  };
 
   const services = [
     {title: 'Computer Service'},
@@ -36,23 +57,28 @@ const Confirm = ({navigation}) => {
     {title: 'Web Design'},
   ];
 
-  const [form, setForm] = React.useState(initialValue);
-
   const submit = async () => {
+    if (loader) {
+      return;
+    }
+    setLoader(true);
     if (
       form.phone === '' ||
       (form.location === '' && form.lat === '') ||
       form.issue === ''
     ) {
       alert('Fillup Required Fields!');
+      setLoader(false);
       return;
     }
     try {
       const data = await firestore().collection('orders').add(form);
       setForm(initialValue);
       alert('You order has been placed!');
+      setLoader(false);
     } catch (error) {
       alert(error);
+      setLoader(false);
     }
   };
   // async function requestLocationPermission() {
@@ -72,7 +98,7 @@ const Confirm = ({navigation}) => {
   // }
   function getLocation() {
     if (form.lat) {
-      setForm({...form, lat: '', long: ''});
+      setForm({...form, location: savedLocation, lat: '', long: ''});
     } else {
       Geolocation.getCurrentPosition(position => {
         const currentLongitude = JSON.stringify(position.coords.longitude);
@@ -86,11 +112,11 @@ const Confirm = ({navigation}) => {
     <ScrollView>
       <View style={{margin: 10}}>
         <ContactButtons navigation={navigation} />
-        <Text style={{ textAlign: 'center' }}>Or</Text>
+        <Text style={{textAlign: 'center'}}>Or</Text>
         <Text style={styles.inputLabel}>Name</Text>
         <Input
           style={styles.input}
-          placeholder="Type you name"
+          placeholder="Type your name"
           size="medium"
           value={form.name}
           onChangeText={value => setForm({...form, name: value})}
@@ -126,7 +152,6 @@ const Confirm = ({navigation}) => {
             onChangeText={value => setForm({...form, location: value})}
           />
           <Button
-            disabled={form.location ? true : false}
             onPress={() => getLocation()}
             style={{width: 200, marginBottom: 5, borderRadius: 30}}>
             <Text category="c1" style={{color: 'white'}}>
@@ -167,7 +192,7 @@ const Confirm = ({navigation}) => {
         />
       </View>
       <Button onPress={submit} style={{marginHorizontal: 10, marginBottom: 30}}>
-        Submit
+        {!loader ? 'Submit' : <Spinner status="control" />}
       </Button>
     </ScrollView>
   );

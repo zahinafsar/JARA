@@ -1,15 +1,8 @@
 import React from 'react';
 import {View, Image, StyleSheet, ScrollView} from 'react-native';
-import {
-  Button,
-  Card,
-  Text,
-  Icon,
-  List,
-  ListItem,
-  Divider,
-} from '@ui-kitten/components';
+import {Button, Card, Text, Icon, Divider} from '@ui-kitten/components';
 import {theme} from '../../../theme';
+import Pricing from '../../../components/pricing';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
@@ -26,24 +19,13 @@ const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 //   );
 // };
 
-const hardware = [
-  'Web assembling',
-  'Repair hardware components',
-  'Find & Fix unknown issues',
-  'PC cleaning',
-  'Upgrade components',
-];
+// const types = [
+//   'E-commarse site',
+//   'Mannageemnt site',
+//   'Admin panel',
+// ];
 
-const software = [
-  'Oparation System upgrade',
-  'Oparation System installation',
-  'Software installation',
-  'Install drivers',
-  'Fix virus problem',
-  'Data recovery',
-];
-
-const rate = [
+const ecom = [
   'Onsite Service = 600 tk',
   '2nd Time Onsite Service = 300 tk',
   'In House Service = 400 tk',
@@ -65,7 +47,7 @@ function Web({navigation}) {
                 />
                 <Text>{a}</Text>
               </View>
-              <Divider style={{marginVertical: 13}} />
+              <Pricing />
             </View>
           );
         })}
@@ -90,14 +72,12 @@ function Web({navigation}) {
               lineHeight: 21,
               fontSize: 14,
             }}>
-            Are you fed up with the inconvenience of dismantling your computer
-            and lugging it to a repair shop every time it needs service – only
-            to be kept waiting a week or more to get it back? There’s a better
-            way – we come to you for the best onsite computer repair services
-            and help
+            Do you need to start a website? We provide the best product to you.
+            Using the best technologies we try to supply the best performance
+            optimised sites.
           </Text>
         </Card>
-        <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
+        {/* <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           Hardware Services
         </Button>
         <Card style={styles.card}>
@@ -114,8 +94,8 @@ function Web({navigation}) {
         </Button>
         <Card style={styles.card}>
           <RenderItem data={rate} />
-        </Card>
-        <Button
+        </Card> */}
+        {/* <Button
           onPress={() => {
             navigation.navigate('membership');
           }}
@@ -123,7 +103,7 @@ function Web({navigation}) {
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
-        </Button>
+        </Button> */}
       </ScrollView>
       <View>
         <Button status="warning" onPress={() => navigation.navigate('confirm')}>

@@ -23,11 +23,11 @@ PushNotification.configure({
     console.error(err.message, err);
   },
 
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
+  // permissions: {
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // },
 
   popInitialNotification: true,
 
@@ -42,8 +42,10 @@ PushNotification.createChannel({
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   PushNotification.localNotification({
     channelId: 'jara',
+    channelName: 'jara',
     title: remoteMessage.notification.title,
     message: remoteMessage.notification.body,
+    timeoutAfter: 30000,
   });
 });
 

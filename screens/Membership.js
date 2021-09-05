@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
+import {View, Image, StyleSheet, ScrollView} from 'react-native';
 import {theme} from '../theme';
-import {Button, Icon, Card, Divider} from '@ui-kitten/components';
+import {Button, Icon, Card, Divider, Text} from '@ui-kitten/components';
 import ContactButtons from '../components/contactButtons';
 
 const StarIcon = props => <Icon {...props} name="star" />;
@@ -24,6 +24,15 @@ function Membership({navigation}) {
       </View>
     );
   };
+
+  const whyToCall = [
+    'অটোরিক্সা বা CNG এর জন্য ঘন্টার পর ঘণ্টা রাস্তায় দাড়িয়ে থাকতে হবে না',
+    'কম্পিউটার নিয়ে রাস্তায় বের হওয়ার ভোগান্তিও পোহাতে হবে না',
+    'Service সেন্টারে নিতে হবে না',
+    'সময় অপচয় হবে না',
+    'গাড়ী ভাড়া সাশ্রয় হবে',
+    'আপনার ঘরে বসেই Computer সমস্যা সমাধান',
+  ];
   return (
     <>
       <ScrollView>
@@ -35,7 +44,7 @@ function Membership({navigation}) {
         </View>
         <Button
           onPress={() => {
-            navigation.navigate('terms');
+            navigation.navigate('termsMember');
           }}
           accessoryRight={Arrow}
           status="warning"
@@ -50,24 +59,9 @@ function Membership({navigation}) {
           <Text style={styles.title}>কেন ডাকবেন ?</Text>
         </Button>
         <Card style={{marginHorizontal: 13, paddingTop: 10}}>
-          {/* <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-            মাত্র ১০০০/= টাকায় ১ বছরের Home Service
-          </Text> */}
-          {/* <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-            কেন ডাকবেন ?
-          </Text> */}
-          <RenderItem data="Service সেন্টারে নিতে হবে না" />
-          <RenderItem data="সময় অপচয় হবে না" />
-          <RenderItem data="গাড়ী ভাড়া সাশ্রয় হবে" />
-          <RenderItem
-            data="অটোরিক্সা বা CNG এর জন্য ঘন্টার পর ঘণ্টা রাস্তায় দাড়িয়ে থাকতে
-            হবে না"
-          />
-          <RenderItem data="কম্পিউটার নিয়ে রাস্তায় বের হওয়ার ভোগান্তিও পোহাতে হবে না" />
-          <RenderItem data="আপনার ঘরে বসেই Computer সমস্যা সমাধান" />
-          {/* <Text style={{fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
-            ০১৮১৯৪৫৯৯৭৪
-          </Text> */}
+          {whyToCall.map(a => (
+            <RenderItem data={a} />
+          ))}
         </Card>
         <ContactButtons navigation={navigation} />
       </ScrollView>
@@ -87,6 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
+    color: 'white',
   },
   card: {
     marginHorizontal: 13,
