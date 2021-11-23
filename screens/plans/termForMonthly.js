@@ -26,23 +26,25 @@ function TermsForMonthly({navigation}) {
         <View
           style={{
             padding: 5,
-            margin: 15,
+            margin: 5,
             marginBottom: 55,
           }}>
-          <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-            Service Contract এর কাজের পরিধিঃ
-          </Text>
-          <View>
-            {terms.map((a, i) => (
-              <Text key={i} style={{marginVertical: 5}} key={i}>{`${
-                i + 1
-              })  ${a}`}</Text>
-            ))}
+          <View style={{backgroundColor: 'white', padding: 15}}>
+            <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
+              Service Contract এর কাজের পরিধিঃ
+            </Text>
+            <View>
+              {terms.map((a, i) => (
+                <Text key={i} style={{marginVertical: 5}} key={i}>{`${
+                  i + 1
+                })  ${a}`}</Text>
+                ))}
+            </View>
           </View>
         </View>
       </ScrollView>
       <Button
-        onPress={() => navigation.navigate('confirm')}
+        onPress={() => navigation.navigate('confirm', {name: "Monthly Plan", plan: true})}
         status="warning"
         style={styles.btn}>
         Next

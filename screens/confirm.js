@@ -8,21 +8,23 @@ import {
   Select,
   SelectItem,
 } from '@ui-kitten/components';
-import ContactButtons from '../../components/contactButtons';
+import ContactButtons from '../components/contactButtons';
 import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { service } from '../../repository';
+import { service } from '../repository';
 
 
 const Confirm = ({route, navigation}) => {
+  const name = route.params?.name
+  const plan = route.params?.plan
   const initialValue = {
     name: '',
     email: '',
     phone: '',
     location: '',
-    related_service: route.params?.name || '',
+    related_service: name || '',
     issue: '',
     message: '',
     lat: '',
@@ -42,7 +44,17 @@ const Confirm = ({route, navigation}) => {
     }
     getUser();
   }, []);
-  const services = service.reduce((acc, cur) => {return [...acc,{title: cur}] },[])
+
+  const services = function() {
+    if (plan) {
+      return [
+        {title: 'Monthly Plan'},
+        {title: 'Membership Plan'}
+      ]
+    }else{
+      return service.reduce((acc, cur) => {return [...acc,{title: cur}] },[])
+    }
+  }
 
   const submit = async () => {
     if (loader) {
@@ -52,14 +64,14 @@ const Confirm = ({route, navigation}) => {
     if (
       form.phone === '' ||
       (form.location === '' && form.lat === '') ||
-      form.issue === ''
+      (!plan && form.issue === '')
     ) {
       alert('Fillup Required Fields!');
       setLoader(false);
       return;
     }
     try {
-      const data = await firestore().collection('orders').add(form);
+      const data = await firestore().collection(!plan? 'orders' : 'plans').add(form);
       setForm(initialValue);
       alert('You order has been placed!');
       setLoader(false);
@@ -136,23 +148,31 @@ const Confirm = ({route, navigation}) => {
           style={styles.input}
           value={form.related_service}
           onSelect={index =>
-            setForm({...form, related_service: services[index - 1].title})
+            setForm({...form, related_service: services()[index - 1].title})
           }>
-          {services.map((a,i) => (
+          {services().map((a,i) => (
             <SelectItem key={i} key={a} title={a.title} />
           ))}
         </Select>
-        <Text style={styles.inputLabel}>
-          Issues<Text style={{color: 'red'}}> (required)</Text>
-        </Text>
-        <Input
-          style={styles.input}
-          multiline={true}
-          textStyle={{minHeight: 70}}
-          placeholder="Type your devices problems"
-          value={form.issue}
-          onChangeText={value => setForm({...form, issue: value})}
-        />
+        {
+          !plan ? (
+            <>
+              <Text style={styles.inputLabel}>
+                Issues<Text style={{color: 'red'}}> (required)</Text>
+              </Text>
+              <Input
+              style={styles.input}
+              multiline={true}
+              textStyle={{minHeight: 70}}
+              placeholder="Type your devices problems"
+              value={form.issue}
+              onChangeText={value => setForm({...form, issue: value})}
+              />
+            </>
+          )
+          :
+          (<></>)
+        }
         <Text style={styles.inputLabel}>Message</Text>
         <Input
           style={styles.input}

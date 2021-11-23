@@ -9,7 +9,7 @@ import {
   CheckBox,
 } from '@ui-kitten/components';
 import TermsOfUse from '../plans/termForMember';
-import AppointUs from './confirm';
+import AppointUs from '../confirm';
 
 const leftIcon = props => <Icon {...props} name="arrow-back-outline" />;
 const rightIcon = props => <Icon {...props} name="arrow-forward-outline" />;

@@ -26,7 +26,7 @@ function TermsForMember({navigation}) {
         <View
           style={{
             padding: 5,
-            margin: 2,
+            margin: 5,
             marginBottom: 55,
           }}>
           <Text
@@ -49,7 +49,7 @@ function TermsForMember({navigation}) {
         </View>
       </ScrollView>
       <Button
-        onPress={() => navigation.navigate('confirm')}
+        onPress={() => navigation.navigate('confirm',{name: "Membership Plan", plan: 'true'})}
         status="warning"
         style={styles.btn}>
         Next

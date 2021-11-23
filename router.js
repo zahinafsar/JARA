@@ -1,29 +1,33 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 import Home from './screens/Home';
-import Chat from './screens/chat';
+
 import Computer from './screens/services/page/computer';
 import Laptop from './screens/services/page/laptop';
 import CCTV from './screens/services/page/cctv';
 import Printer from './screens/services/page/printer';
 import Network from './screens/services/page/network';
 import Web from './screens/services/page/web';
-// import Procced from './screens/services/procced';
-import {theme} from './theme';
-import Membership from './screens/plans/Membership';
-import Confirm from './screens/services/confirm';
-import TermsOfUse from './screens/plans/termForMember';
-import Contacts from './screens/Contacts';
+import Confirm from './screens/confirm';
+
 import Call from './screens/call';
+import Chat from './screens/chat';
 import Profile from './screens/profile';
 import Login from './screens/login';
-const Stack = createStackNavigator();
-import {Context} from './store';
+import Contacts from './screens/Contacts';
+
+import Membership from './screens/plans/Membership';
 import MonthlyService from './screens/plans/MonthlyService';
 import TermsForMember from './screens/plans/termForMember';
 import TermsForMonthly from './screens/plans/termForMonthly';
+// import ConfirmPlan from './screens/plans/confirmPlan';
+
+import {Context} from './store';
 import { service } from './repository';
+import {theme} from './theme';
+
+const Stack = createStackNavigator();
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 function Router() {
   const [state] = React.useContext(Context);
@@ -110,6 +114,13 @@ function Router() {
           }}
         />
         {/* <Stack.Screen
+          name="confirmPlan"
+          component={ConfirmPlan}
+          options={{
+            title: 'Plan Confirmation',
+          }}
+        /> */}
+        {/* <Stack.Screen
           name="procced"
           component={Procced}
           options={{
@@ -138,13 +149,13 @@ function Router() {
             title: 'Terms and Conditions',
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="terms"
           component={TermsOfUse}
           options={{
             title: 'Terms and Conditions',
           }}
-        />
+        /> */}
         <Stack.Screen name="contacts" component={Contacts} />
         <Stack.Screen
           name="profile"
