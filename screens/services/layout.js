@@ -14,18 +14,6 @@ import {theme} from '../../../theme';
 const StarIcon = props => <Icon {...props} name="star" />;
 const RightArrow = props => <Icon {...props} name="arrow-right-outline" />;
 
-// const InfoBtn = props => {
-//   return (
-//     <>
-//       <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
-//         {props.title}
-//       </Button>
-//       <Card style={styles.card}>
-//         <View style={{lineHeight: 18}}>{props.children}</View>
-//       </Card>
-//     </>
-//   );
-// };
 const data = new Array(8).fill({
   title: 'Item',
 });
@@ -64,9 +52,6 @@ function Computer({navigation}) {
             source={require('../../../assets/services/page/computer.png')}
           />
         </View>
-        {/* <Text style={styles.title} category="h6">
-          Why this Service
-        </Text> */}
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           About this service
         </Button>
@@ -83,9 +68,6 @@ function Computer({navigation}) {
             and help
           </Text>
         </Card>
-        {/* <Text style={styles.title} category="h6">
-          Services
-        </Text> */}
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           Hardware Services
         </Button>

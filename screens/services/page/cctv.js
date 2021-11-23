@@ -10,6 +10,7 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import {theme} from '../../../theme';
+import { service } from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
@@ -119,14 +120,13 @@ function CCTV({navigation}) {
           onPress={() => {
             navigation.navigate('membership');
           }}
-          // accessoryRight={Arrow}
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
         </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm')}>
+        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[3]})}>
           Next
         </Button>
       </View>

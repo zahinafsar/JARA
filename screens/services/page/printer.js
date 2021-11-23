@@ -10,6 +10,7 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import {theme} from '../../../theme';
+import { service } from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
@@ -126,7 +127,7 @@ function Printer({navigation}) {
         </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm')}>
+        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[2]})}>
           Next
         </Button>
       </View>

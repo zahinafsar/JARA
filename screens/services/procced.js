@@ -8,7 +8,7 @@ import {
   Icon,
   CheckBox,
 } from '@ui-kitten/components';
-import TermsOfUse from './termForMember';
+import TermsOfUse from '../plans/termForMember';
 import AppointUs from './confirm';
 
 const leftIcon = props => <Icon {...props} name="arrow-back-outline" />;

@@ -11,18 +11,19 @@ import Network from './screens/services/page/network';
 import Web from './screens/services/page/web';
 // import Procced from './screens/services/procced';
 import {theme} from './theme';
-import Membership from './screens/Membership';
+import Membership from './screens/plans/Membership';
 import Confirm from './screens/services/confirm';
-import TermsOfUse from './screens/services/termForMember';
+import TermsOfUse from './screens/plans/termForMember';
 import Contacts from './screens/Contacts';
 import Call from './screens/call';
 import Profile from './screens/profile';
 import Login from './screens/login';
 const Stack = createStackNavigator();
 import {Context} from './store';
-import MonthlyService from './screens/MonthlyService';
-import TermsForMember from './screens/services/termForMember';
-import TermsForMonthly from './screens/services/termForMonthly';
+import MonthlyService from './screens/plans/MonthlyService';
+import TermsForMember from './screens/plans/termForMember';
+import TermsForMonthly from './screens/plans/termForMonthly';
+import { service } from './repository';
 
 function Router() {
   const [state] = React.useContext(Context);
@@ -56,42 +57,42 @@ function Router() {
           name="computer"
           component={Computer}
           options={{
-            title: 'Computer Service',
-          }}
-        />
-        <Stack.Screen
-          name="printer"
-          component={Printer}
-          options={{
-            title: 'Printer Service',
-          }}
-        />
-        <Stack.Screen
-          name="cctv"
-          component={CCTV}
-          options={{
-            title: 'CCTV Setup',
+            title: service[0],
           }}
         />
         <Stack.Screen
           name="laptop"
           component={Laptop}
           options={{
-            title: 'Laptop Service',
+            title: service[1],
+          }}
+        />
+        <Stack.Screen
+          name="printer"
+          component={Printer}
+          options={{
+            title: service[2],
+          }}
+        />
+        <Stack.Screen
+          name="cctv"
+          component={CCTV}
+          options={{
+            title: service[3],
           }}
         />
         <Stack.Screen
           name="network"
           component={Network}
           options={{
-            title: 'Network Setup',
+            title: service[4],
           }}
         />
         <Stack.Screen
           name="web"
           component={Web}
           options={{
-            title: 'Web Development',
+            title: service[5],
           }}
         />
         <Stack.Screen

@@ -13,20 +13,21 @@ import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { service } from '../../repository';
 
-const initialValue = {
-  name: '',
-  email: '',
-  phone: '',
-  location: '',
-  related_service: '',
-  issue: '',
-  message: '',
-  lat: '',
-  long: '',
-};
 
-const Confirm = ({navigation}) => {
+const Confirm = ({route, navigation}) => {
+  const initialValue = {
+    name: '',
+    email: '',
+    phone: '',
+    location: '',
+    related_service: route.params?.name || '',
+    issue: '',
+    message: '',
+    lat: '',
+    long: '',
+  };
   const [form, setForm] = React.useState(initialValue);
   const [savedLocation, setLocation] = React.useState();
   const [loader, setLoader] = React.useState(false);
@@ -37,25 +38,11 @@ const Confirm = ({navigation}) => {
         const {name, email, phone, location} = JSON.parse(dataObj);
         setLocation(location);
         setForm({...form, name, email, phone, location});
-        // console.log(name);
-        // initialValue.name = name;
-        // initialValue.email = email;
-        // initialValue.phone = phone;
-        // initialValue.location = location;
       }
     }
     getUser();
   }, []);
-  // console.log('rerenders..');
-
-  const services = [
-    {title: 'Computer Service'},
-    {title: 'Laptop Service'},
-    {title: 'Printer Service'},
-    {title: 'CCTV Setup'},
-    {title: 'Network Setup'},
-    {title: 'Web Design'},
-  ];
+  const services = service.reduce((acc, cur) => {return [...acc,{title: cur}] },[])
 
   const submit = async () => {
     if (loader) {
@@ -81,21 +68,6 @@ const Confirm = ({navigation}) => {
       setLoader(false);
     }
   };
-  // async function requestLocationPermission() {
-  //   const granted = await PermissionsAndroid.request(
-  //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-  //     {
-  //       title: 'Location Permission',
-  //       message: 'JARA needs access to your location',
-  //     },
-  //   );
-
-  //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
   function getLocation() {
     if (form.lat) {
       setForm({...form, location: savedLocation, lat: '', long: ''});
@@ -166,8 +138,8 @@ const Confirm = ({navigation}) => {
           onSelect={index =>
             setForm({...form, related_service: services[index - 1].title})
           }>
-          {services.map(a => (
-            <SelectItem key={a} title={a.title} />
+          {services.map((a,i) => (
+            <SelectItem key={i} key={a} title={a.title} />
           ))}
         </Select>
         <Text style={styles.inputLabel}>
