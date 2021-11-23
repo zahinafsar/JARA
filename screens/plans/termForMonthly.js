@@ -21,7 +21,7 @@ function TermsForMonthly({navigation}) {
     '৪ নং সমস্যা ব্যতিত বিনা কারণে call করা যাবে না।`',
   ];
   return (
-    <View>
+    <View style={{flex:1}}>
       <ScrollView>
         <View
           style={{
