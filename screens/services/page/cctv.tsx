@@ -10,7 +10,7 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import {theme} from '../../../theme';
-import { service } from '../../../repository';
+import {service} from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
@@ -28,7 +28,7 @@ const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 // };
 
 const hardware = [
-  'Printer assembling',
+  'CCTV assembling',
   'Repair hardware components',
   'Find & Fix unknown issues',
   'PC cleaning',
@@ -51,7 +51,7 @@ const rate = [
   'Online Remote Support = 300 tk',
 ];
 
-function Printer({navigation}) {
+function CCTV({navigation}) {
   const RenderItem = ({data}) => {
     return (
       <>
@@ -79,7 +79,7 @@ function Printer({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../../assets/services/page/printer.png')}
+            source={require('../../../assets/services/page/cctv.png')}
           />
         </View>
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
@@ -120,14 +120,15 @@ function Printer({navigation}) {
           onPress={() => {
             navigation.navigate('membership');
           }}
-          // accessoryRight={Arrow}
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
         </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[2]})}>
+        <Button
+          status="warning"
+          onPress={() => navigation.navigate('confirm', {name: service[3]})}>
           Next
         </Button>
       </View>
@@ -137,30 +138,24 @@ function Printer({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
+    height: 65,
     justifyContent: 'flex-start',
-    borderRadius: 40,
-    marginTop: 10,
+    alignItems: 'flex-start',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     margin: 13,
-    backgroundColor: theme.color_secondary,
+    marginBottom: -10,
+    backgroundColor: theme.primary_1,
     color: theme.light_text,
     borderColor: 'white',
   },
-  title: {
-    marginTop: 30,
-    margin: 10,
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
-    fontWeight: 'bold',
-    elevation: 2,
-  },
   card: {
     marginHorizontal: 13,
-    paddingTop: 10,
+    marginTop: -10,
     marginBottom: 10,
     borderRadius: 10,
     elevation: 2,
   },
 });
 
-export default Printer;
+export default CCTV;

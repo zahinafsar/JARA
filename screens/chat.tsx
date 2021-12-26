@@ -118,7 +118,7 @@ function Chat() {
         }}>
         <Icon
           style={{width: 30, height: 30}}
-          fill={theme.color_primary}
+          fill={theme.primary_1}
           name="paper-plane-outline"
         />
       </Send>

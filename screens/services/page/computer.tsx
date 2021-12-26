@@ -13,8 +13,7 @@ import {theme} from '../../../theme';
 import { service } from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
-const RightArrow = props => <Icon {...props} name="arrow-right-outline" />;
-
+const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 // const InfoBtn = props => {
 //   return (
 //     <>
@@ -27,11 +26,13 @@ const RightArrow = props => <Icon {...props} name="arrow-right-outline" />;
 //     </>
 //   );
 // };
+
 const hardware = [
-  'Repair broken parts',
-  'Find & fix unknown issues',
-  'Laptop cleaning',
-  'Change laptop parts',
+  'Computer assembling',
+  'Repair hardware components',
+  'Find & Fix unknown issues',
+  'PC cleaning',
+  'Upgrade components',
 ];
 
 const software = [
@@ -43,7 +44,14 @@ const software = [
   'Data recovery',
 ];
 
-function Laptop({navigation}) {
+const rate = [
+  'Onsite Service = 600 tk',
+  '2nd Time Onsite Service = 300 tk',
+  'In House Service = 400 tk',
+  'Online Remote Support = 300 tk',
+];
+
+function Computer({navigation}) {
   const RenderItem = ({data}) => {
     return (
       <>
@@ -71,12 +79,9 @@ function Laptop({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../../assets/services/page/laptop.png')}
+            source={require('../../../assets/services/page/computer.png')}
           />
         </View>
-        {/* <Text style={styles.title} category="h6">
-          Why this Service
-        </Text> */}
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           About this service
         </Button>
@@ -105,9 +110,15 @@ function Laptop({navigation}) {
         <Card style={styles.card}>
           <RenderItem data={software} />
         </Card>
+        <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
+          Service Rate
+        </Button>
+        <Card style={styles.card}>
+          <RenderItem data={rate} />
+        </Card>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm', {name: service[1]})}>
+        <Button status="warning" onPress={() => navigation.navigate('confirm', {name: service[0]})}>
           Next
         </Button>
       </View>
@@ -117,30 +128,24 @@ function Laptop({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
+    height: 65,
     justifyContent: 'flex-start',
-    borderRadius: 40,
-    marginTop: 10,
+    alignItems: 'flex-start',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     margin: 13,
-    backgroundColor: theme.color_secondary,
+    marginBottom: -10,
+    backgroundColor: theme.primary_1,
     color: theme.light_text,
     borderColor: 'white',
   },
-  title: {
-    marginTop: 30,
-    margin: 10,
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
-    fontWeight: 'bold',
-    elevation: 2,
-  },
   card: {
     marginHorizontal: 13,
-    paddingTop: 10,
+    marginTop: -10,
     marginBottom: 10,
     borderRadius: 10,
     elevation: 2,
   },
 });
 
-export default Laptop;
+export default Computer;

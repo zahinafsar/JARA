@@ -71,11 +71,10 @@ function Membership({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
-    // justifyContent: 'flex-start',
     borderRadius: 40,
     marginTop: 10,
     margin: 13,
-    backgroundColor: theme.color_secondary,
+    backgroundColor: theme.primary_1,
     color: theme.light_text,
     borderColor: 'white',
   },

@@ -1,8 +1,15 @@
 import React from 'react';
 import {View, Image, StyleSheet, ScrollView} from 'react-native';
-import {Button, Card, Text, Icon, Divider} from '@ui-kitten/components';
+import {
+  Button,
+  Card,
+  Text,
+  Icon,
+  List,
+  ListItem,
+  Divider,
+} from '@ui-kitten/components';
 import {theme} from '../../../theme';
-import Pricing from '../../../components/pricing';
 import { service } from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
@@ -20,20 +27,31 @@ const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 //   );
 // };
 
-// const types = [
-//   'E-commarse site',
-//   'Mannageemnt site',
-//   'Admin panel',
-// ];
+const hardware = [
+  'Network assembling',
+  'Repair hardware components',
+  'Find & Fix unknown issues',
+  'PC cleaning',
+  'Upgrade components',
+];
 
-const ecom = [
+const software = [
+  'Oparation System upgrade',
+  'Oparation System installation',
+  'Software installation',
+  'Install drivers',
+  'Fix virus problem',
+  'Data recovery',
+];
+
+const rate = [
   'Onsite Service = 600 tk',
   '2nd Time Onsite Service = 300 tk',
   'In House Service = 400 tk',
   'Online Remote Support = 300 tk',
 ];
 
-function Web({navigation}) {
+function Network({navigation}) {
   const RenderItem = ({data}) => {
     return (
       <>
@@ -48,7 +66,7 @@ function Web({navigation}) {
                 />
                 <Text>{a}</Text>
               </View>
-              <Pricing />
+              <Divider style={{marginVertical: 13}} />
             </View>
           );
         })}
@@ -61,7 +79,7 @@ function Web({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../../assets/services/page/web.png')}
+            source={require('../../../assets/services/page/network.png')}
           />
         </View>
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
@@ -73,12 +91,14 @@ function Web({navigation}) {
               lineHeight: 21,
               fontSize: 14,
             }}>
-            Do you need to start a website? We provide the best product to you.
-            Using the best technologies we try to supply the best performance
-            optimised sites.
+            Are you fed up with the inconvenience of dismantling your computer
+            and lugging it to a repair shop every time it needs service – only
+            to be kept waiting a week or more to get it back? There’s a better
+            way – we come to you for the best onsite computer repair services
+            and help
           </Text>
         </Card>
-        {/* <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
+        <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
           Hardware Services
         </Button>
         <Card style={styles.card}>
@@ -95,8 +115,8 @@ function Web({navigation}) {
         </Button>
         <Card style={styles.card}>
           <RenderItem data={rate} />
-        </Card> */}
-        {/* <Button
+        </Card>
+        <Button
           onPress={() => {
             navigation.navigate('membership');
           }}
@@ -104,10 +124,10 @@ function Web({navigation}) {
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
-        </Button> */}
+        </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[5]})}>
+        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[4]})}>
           Next
         </Button>
       </View>
@@ -117,30 +137,23 @@ function Web({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
+    height: 65,
     justifyContent: 'flex-start',
-    borderRadius: 40,
-    marginTop: 10,
+    alignItems: 'flex-start',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     margin: 13,
-    backgroundColor: theme.color_secondary,
+    marginBottom: -10,
+    backgroundColor: theme.primary_1,
     color: theme.light_text,
     borderColor: 'white',
   },
-  title: {
-    marginTop: 30,
-    margin: 10,
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
-    fontWeight: 'bold',
-    elevation: 2,
-  },
   card: {
     marginHorizontal: 13,
-    paddingTop: 10,
+    marginTop: -10,
     marginBottom: 10,
     borderRadius: 10,
     elevation: 2,
   },
 });
-
-export default Web;
+export default Network;

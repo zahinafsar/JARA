@@ -41,7 +41,7 @@ function Login({navigation}) {
       setDisabled(false);
       setLoader(false);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       setDisabled(false);
       Alert.alert('Something went wrong! Try again.');
       setLoader(false);
@@ -88,7 +88,7 @@ function Login({navigation}) {
       style={{
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: theme.color_primary,
+        backgroundColor: theme.primary_1,
       }}>
       <Button
         style={styles.button}

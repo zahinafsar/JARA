@@ -4,12 +4,13 @@ import Router from './router';
 // import Loading from './screens/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Store, {Context} from './store';
-import {StatusBar} from 'react-native';
 import {ApplicationProvider} from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 // import messaging from '@react-native-firebase/messaging';
 // import PushNotification from 'react-native-push-notification';
 // import Call from './screens/call';
+import { StatusBar, StyleSheet } from 'react-native';
+import { myTheme, theme } from './theme';
 
 function Main() {
   const [state, setState] = useContext(Context);
@@ -25,7 +26,7 @@ function Main() {
   }, []);
 
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
+    <ApplicationProvider {...eva} theme={{...eva.light, ...myTheme}}>
       <Router />
     </ApplicationProvider>
   );
@@ -37,7 +38,7 @@ const App = () => {
 
   return (
     <Store>
-      <StatusBar backgroundColor="#055603" />
+      <StatusBar backgroundColor={theme.primary_1} />
       <Main />
     </Store>
   );

@@ -77,15 +77,15 @@ function Profile({navigation}) {
           onChangeText={value => setForm({...form, location: value})}
         />
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={styles.saveBtn} onPress={save} status="warning">
+          <Button style={styles.saveBtn} onPress={save}>
             Save
           </Button>
-          <Button style={styles.saveBtn} onPress={clear} status="danger">
+          <Button style={styles.saveBtn} onPress={clear} status="warning">
             Clear
           </Button>
         </View>
       </ScrollView>
-      <Button style={styles.logOutBtn} onPress={logout} status="danger">
+      <Button style={styles.logOutBtn} onPress={logout} status="warning">
         Log Out
       </Button>
     </View>

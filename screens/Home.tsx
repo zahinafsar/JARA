@@ -17,13 +17,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import ContactButtons from '../components/contactButtons';
 import {theme} from '../theme';
 import Ripple from 'react-native-material-ripple';
+import MyCard from '../components/custom/card';
 const Home = ({navigation}) => {
-  // const renderOptionAction = () => (
-  //   <TopNavigationAction
-  //     icon={OptionIcon}
-  //   />
-  // );
-  const TestLogo = () => (
+  const AppLogo = () => (
     <Image
       style={{width: 40, height: 40}}
       source={require('../assets/logo.png')}
@@ -33,21 +29,15 @@ const Home = ({navigation}) => {
     <TouchableOpacity onPress={() => navigation.navigate('profile')}>
       <Icon
         style={{width: 30, height: 30}}
-        fill="white"
+        fill={theme.primary_1}
         name="more-vertical-outline"
       />
     </TouchableOpacity>
   );
 
-  const renderBackAction = () => <TopNavigationAction icon={TestLogo} />;
+  const renderBackAction = () => <TopNavigationAction icon={AppLogo} />;
   const [activeIndex, setActiveIndex] = useState(0);
   const windowWidth = Dimensions.get('window').width;
-
-  // const getData = async () => {
-  //   console.log('Running....');
-  // const userDocument = await firestore().collection('chat').get();
-  // console.log(userDocument);
-  // };
 
   const carouselItems = [
     {
@@ -97,7 +87,6 @@ const Home = ({navigation}) => {
       <IconRegistry icons={EvaIconsPack} />
       <Layout style={styles.container} level="1">
         <TopNavigation
-          style={{backgroundColor: theme.color_primary}}
           alignment="center"
           title={<Text style={styles.headerTitle}>JARA</Text>}
           accessoryLeft={renderBackAction}
@@ -115,70 +104,24 @@ const Home = ({navigation}) => {
           onSnapToItem={index => setActiveIndex(index)}
         />
       </View>
-      <View style={styles.socialBtn}>
-        <Ripple
-          onPress={() => {
-            navigation.navigate('membership');
-          }}>
-          <Card
-            style={{
-              alignItems: 'center',
-              backgroundColor: theme.color_tertiary,
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 17,
-                fontWeight: 'bold',
-                marginBottom: 5,
-                color: theme.light_text,
-              }}>
-              Membership
-            </Text>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 16,
-                opacity: 0.9,
-                color: theme.light_text,
-              }}>
-              ১০০০ টাকায় ১ বছরের Home Service
-            </Text>
-          </Card>
-        </Ripple>
-      </View>
-      <View style={styles.socialBtn}>
-        <Ripple
-          onPress={() => {
-            navigation.navigate('monthly');
-          }}>
-          <Card
-            style={{
-              alignItems: 'center',
-              backgroundColor: theme.color_secondary,
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 17,
-                fontWeight: 'bold',
-                marginBottom: 5,
-                color: theme.light_text,
-              }}>
-              Monthly Service
-            </Text>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontSize: 16,
-                opacity: 0.9,
-                color: theme.light_text,
-              }}>
-              Total Office IT Solution(Contract Basis)
-            </Text>
-          </Card>
-        </Ripple>
-      </View>
+      <MyCard
+        style={{marginTop: 10, marginVertical: 5, marginHorizontal: 10}}
+        onPress={() => {
+          navigation.navigate('membership');
+        }}
+        title="Membership"
+        subtitle="১০০০ টাকায় ১ বছরের Home Service"
+        image={require('../assets/membership/member.png')}
+      />
+      <MyCard
+        style={{marginVertical: 5, marginHorizontal: 10}}
+        onPress={() => {
+          navigation.navigate('membership');
+        }}
+        title="Monthly Service"
+        subtitle="Total Office IT Solution(Contract Basis)"
+        image={require('../assets/membership/monthly.png')}
+      />
       <View
         style={{
           justifyContent: 'center',
@@ -262,9 +205,6 @@ const styles = StyleSheet.create({
   imgWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  container: {
-    elevation: 10,
   },
   tinyLogo: {
     width: '100%',

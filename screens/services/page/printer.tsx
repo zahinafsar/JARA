@@ -28,7 +28,7 @@ const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
 // };
 
 const hardware = [
-  'CCTV assembling',
+  'Printer assembling',
   'Repair hardware components',
   'Find & Fix unknown issues',
   'PC cleaning',
@@ -51,7 +51,7 @@ const rate = [
   'Online Remote Support = 300 tk',
 ];
 
-function CCTV({navigation}) {
+function Printer({navigation}) {
   const RenderItem = ({data}) => {
     return (
       <>
@@ -79,7 +79,7 @@ function CCTV({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../../assets/services/page/cctv.png')}
+            source={require('../../../assets/services/page/printer.png')}
           />
         </View>
         <Button style={styles.button} status="info" accessoryLeft={StarIcon}>
@@ -120,13 +120,14 @@ function CCTV({navigation}) {
           onPress={() => {
             navigation.navigate('membership');
           }}
+          // accessoryRight={Arrow}
           status="warning"
           style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
           ১ বছরের Home Service মাত্র ১০০০/= টাকা
         </Button>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[3]})}>
+        <Button status="warning" onPress={() => navigation.navigate('confirm', {name:service[2]})}>
           Next
         </Button>
       </View>
@@ -136,30 +137,24 @@ function CCTV({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
+    height: 65,
     justifyContent: 'flex-start',
-    borderRadius: 40,
-    marginTop: 10,
+    alignItems: 'flex-start',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     margin: 13,
-    backgroundColor: theme.color_secondary,
+    marginBottom: -10,
+    backgroundColor: theme.primary_1,
     color: theme.light_text,
     borderColor: 'white',
   },
-  title: {
-    marginTop: 30,
-    margin: 10,
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
-    fontWeight: 'bold',
-    elevation: 2,
-  },
   card: {
     marginHorizontal: 13,
-    paddingTop: 10,
+    marginTop: -10,
     marginBottom: 10,
     borderRadius: 10,
     elevation: 2,
   },
 });
 
-export default CCTV;
+export default Printer;

@@ -15,7 +15,7 @@ import Profile from './screens/profile';
 import Login from './screens/login';
 import Contacts from './screens/Contacts';
 
-import Membership from './screens/plans/Membership';
+import Membership from './screens/plans/Membership.tsx';
 import MonthlyService from './screens/plans/MonthlyService';
 import TermsForMember from './screens/plans/termForMember';
 import TermsForMonthly from './screens/plans/termForMonthly';
@@ -35,9 +35,6 @@ function Router() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.color_primary,
-          },
           headerTitleAlign: 'center',
           headerTintColor: theme.light_text,
           headerTitleStyle: {
