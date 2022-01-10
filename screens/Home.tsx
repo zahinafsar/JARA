@@ -116,7 +116,7 @@ const Home = ({navigation}) => {
       <MyCard
         style={{marginVertical: 5, marginHorizontal: 10}}
         onPress={() => {
-          navigation.navigate('membership');
+          navigation.navigate('monthly');
         }}
         title="Monthly Service"
         subtitle="Total Office IT Solution(Contract Basis)"
