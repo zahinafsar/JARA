@@ -61,18 +61,9 @@ function MonthlyService({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../assets/why.png')}
+            source={require('../../assets/membership/monthly.png')}
           />
         </View>
-        <Button
-          onPress={() => {
-            navigation.navigate('termsMonthly');
-          }}
-          accessoryRight={Arrow}
-          status="warning"
-          style={{margin: 13, elevation: 5}}>
-          Total Office IT Solution(Contract Basis)
-        </Button>
         <Button
           style={styles.button}
           status="info"
@@ -97,8 +88,16 @@ function MonthlyService({navigation}) {
             <RenderItem key={i} data={a} />
           ))}
         </Card>
-        <ContactButtons navigation={navigation} />
+        {/* <ContactButtons navigation={navigation} /> */}
       </ScrollView>
+      <View>
+        <Button
+          status="warning"
+          accessoryRight={Arrow}
+          onPress={() => navigation.navigate('termsMonthly')}>
+          Total Office IT Solution(Contract Basis)
+        </Button>
+      </View>
     </>
   );
 }

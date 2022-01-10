@@ -39,18 +39,9 @@ function Membership({navigation}) {
         <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
-            source={require('../../assets/why.png')}
+            source={require('../../assets/membership/member.png')}
           />
         </View>
-        <Button
-          onPress={() => {
-            navigation.navigate('termsMember');
-          }}
-          accessoryRight={Arrow}
-          status="warning"
-          style={{margin: 13, elevation: 5}}>
-          ১ বছরের Home Service মাত্র ১০০০/= টাকা
-        </Button>
         <Button
           style={styles.button}
           status="info"
@@ -59,12 +50,20 @@ function Membership({navigation}) {
           <Text style={styles.title}>কেন ডাকবেন ?</Text>
         </Button>
         <Card style={{marginHorizontal: 13, paddingTop: 10}}>
-          {whyToCall.map((a,i) => (
+          {whyToCall.map((a, i) => (
             <RenderItem key={i} data={a} />
           ))}
         </Card>
-        <ContactButtons navigation={navigation} />
+        {/* <ContactButtons navigation={navigation} /> */}
       </ScrollView>
+      <View>
+        <Button
+          status="warning"
+          accessoryRight={Arrow}
+          onPress={() => navigation.navigate('termsMember')}>
+          ১ বছরের Home Service মাত্র ১০০০/= টাকা
+        </Button>
+      </View>
     </>
   );
 }

@@ -29,14 +29,14 @@ function TermsForMember({navigation}) {
             margin: 5,
             marginBottom: 55,
           }}>
-          <Text
+          {/* <Text
             style={{marginBottom: 20, textAlign: 'center', fontWeight: 'bold'}}
             category="h6">
             ১০০০ টাকায় ১ বছরের Home Service যতবার দরকার ততবার।
-          </Text>
+          </Text> */}
           <View style={{backgroundColor: 'white', padding: 15}}>
             <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
-              Home Service card এর কাজের পরিধিঃ
+              Home Service এর কাজের পরিধিঃ
             </Text>
             <View>
               {terms.map((a, i) => (
