@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet, ScrollView, Linking} from 'react-native';
-import {Button} from '@ui-kitten/components';
+import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
 
 const hardware = [
   'Contacts assembling',
@@ -9,40 +9,35 @@ const hardware = [
   'PC cleaning',
   'Upgrade components',
 ];
+
+const Person = (props: any) => <Icon {...props} name="person-outline" />;
+
+const Call = (props: any) => <Icon {...props} name="phone-call-outline" />;
+
+const ContactButton = ({number}: any) => (
+  <Button
+    accessoryLeft={props => (
+      <View style={{flexDirection: 'row'}}>
+        <Person {...props} />
+        <Text style={{opacity: 0.5}}>+88{number}</Text>
+      </View>
+    )}
+    accessoryRight={Call}
+    appearance="outline"
+    style={{marginBottom: 10, justifyContent: 'space-between'}}
+    status="primary"
+    onPress={() => Linking.openURL(`tel: ${number}`)}
+  />
+);
 function Contacts({navigation}) {
   return (
     <>
       <View style={{margin: 5}}>
-        <Button
-          style={{marginBottom: 10}}
-          status="warning"
-          onPress={() => Linking.openURL('tel: 01819459974')}>
-          +8801819459974
-        </Button>
-        <Button
-          style={{marginBottom: 10}}
-          status="warning"
-          onPress={() => Linking.openURL('tel: 01717459483')}>
-          +8801717459483
-        </Button>
-        <Button
-          style={{marginBottom: 10}}
-          status="warning"
-          onPress={() => Linking.openURL('tel: 01557848523')}>
-          +8801557848523
-        </Button>
-        <Button
-          style={{marginBottom: 10}}
-          status="warning"
-          onPress={() => Linking.openURL('tel: 01979459974')}>
-          +8801979459974
-        </Button>
-        <Button
-          style={{marginBottom: 10}}
-          status="warning"
-          onPress={() => Linking.openURL('tel: 01744273747')}>
-          +8801744273747
-        </Button>
+        <ContactButton number="01819459974" />
+        <ContactButton number="01717459483" />
+        <ContactButton number="01557848523" />
+        <ContactButton number="01979459974" />
+        <ContactButton number="01744273747" />
       </View>
     </>
   );

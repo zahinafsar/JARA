@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Home from './screens/Home';
+import Home from './screens/home';
 
 import Computer from './screens/services/page/computer';
 import Laptop from './screens/services/page/laptop';
@@ -13,21 +13,22 @@ import Call from './screens/call';
 import Chat from './screens/chat';
 import Profile from './screens/profile';
 import Login from './screens/login';
-import Contacts from './screens/Contacts';
+import Contacts from './screens/contacts';
 
-import Membership from './screens/plans/Membership.tsx';
-import MonthlyService from './screens/plans/MonthlyService';
+import Membership from './screens/plans/membership.tsx';
+import MonthlyService from './screens/plans/monthlyService';
 import TermsForMember from './screens/plans/termForMember';
 import TermsForMonthly from './screens/plans/termForMonthly';
 // import ConfirmPlan from './screens/plans/confirmPlan';
 
 import {Context} from './store';
-import { service } from './repository';
+import {service} from './repository';
 import {theme} from './theme';
 
 const Stack = createStackNavigator();
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import History from './screens/history';
 
 function Router() {
   const [state] = React.useContext(Context);
@@ -45,6 +46,14 @@ function Router() {
           name="Home"
           component={Home}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="history"
+          component={state.uid ? History : Login}
+          options={{
+            headerShown: state.uid ? true : false,
+            title: 'History',
+          }}
         />
         <Stack.Screen
           name="chat"

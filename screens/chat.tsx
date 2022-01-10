@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useCallback, useEffect, useContext} from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
@@ -6,6 +7,7 @@ import firestore from '@react-native-firebase/firestore';
 import {Button, Icon, Input, Spinner} from '@ui-kitten/components';
 import {Context} from '../store';
 import {theme} from '../theme';
+import $alert from '../helper/alert';
 
 let firstLoad = true;
 
@@ -75,7 +77,8 @@ function Chat() {
         seLoader(false);
       });
     } else {
-      alert('No more data');
+      // alert('No more data');
+      $alert('No more chat');
       seLoader(false);
     }
   }

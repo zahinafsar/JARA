@@ -18,26 +18,41 @@ import ContactButtons from '../components/contactButtons';
 import {theme} from '../theme';
 import Ripple from 'react-native-material-ripple';
 import MyCard from '../components/custom/card';
+
+const windowWidth = Dimensions.get('window').width;
+
 const Home = ({navigation}) => {
   const AppLogo = () => (
     <Image
-      style={{width: 40, height: 40}}
+      style={{width: 50, height: 50}}
       source={require('../assets/logo.png')}
     />
   );
   const OptionIcon = () => (
-    <TouchableOpacity onPress={() => navigation.navigate('profile')}>
-      <Icon
-        style={{width: 30, height: 30}}
-        fill={theme.primary_1}
-        name="more-vertical-outline"
-      />
-    </TouchableOpacity>
+    <View style={{flexDirection: 'row'}}>
+      <TouchableOpacity
+        style={{marginRight: 10}}
+        onPress={() => navigation.navigate('history')}>
+        <Icon
+          style={{width: 30, height: 30}}
+          fill={theme.primary_1}
+          name="bell-outline"
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{marginRight: 5}}
+        onPress={() => navigation.navigate('profile')}>
+        <Icon
+          style={{width: 30, height: 30}}
+          fill={theme.primary_1}
+          name="more-vertical-outline"
+        />
+      </TouchableOpacity>
+    </View>
   );
 
   const renderBackAction = () => <TopNavigationAction icon={AppLogo} />;
   const [activeIndex, setActiveIndex] = useState(0);
-  const windowWidth = Dimensions.get('window').width;
 
   const carouselItems = [
     {
@@ -189,7 +204,7 @@ const styles = StyleSheet.create({
   card: {
     // margin: 5,
     // elevation: 2,
-    width: 160,
+    width: windowWidth / 2 - 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

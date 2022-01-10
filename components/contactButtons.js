@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Linking} from 'react-native';
 import {Button, Icon, Modal, Card} from '@ui-kitten/components';
 import {Context} from '../store';
+import $alert from '../helper/alert';
 
 const MessageIcon = props => <Icon {...props} name="message-square" />;
 const CallIcon = props => <Icon {...props} name="phone-call" />;
@@ -25,7 +26,7 @@ function ContactButtons({navigation}) {
           <Button
             style={styles.button}
             onPress={() => setVisible(true)}
-            status="info"
+            status="primary"
             accessoryRight={CallIcon}>
             Live Call
           </Button>
@@ -37,7 +38,7 @@ function ContactButtons({navigation}) {
               justifyContent: 'space-between',
             }}>
             <Button
-              status="info"
+              status="primary"
               style={{width: '43%', elevation: 4}}
               onPress={() => {
                 navigation.navigate('contacts');
@@ -46,13 +47,12 @@ function ContactButtons({navigation}) {
               Offline
             </Button>
             <Button
-              status="info"
+              status="primary"
               style={{width: '43%', elevation: 4}}
               onPress={() => {
-                // Linking.openURL('whatsapp://send?phone=+8801819459974');
-                setVisible(false);
-                navigation.navigate('call');
-                // setState({...state, loggedIn: 'callScreen'});
+                // setVisible(false);
+                // navigation.navigate('call');
+                $alert('This service is under development');
               }}>
               Online
             </Button>

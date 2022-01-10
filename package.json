@@ -36,6 +36,7 @@
     "react-native-screens": "^3.4.0",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
+    "react-native-toast-message": "^2.1.1",
     "react-native-webrtc": "^1.92.0"
   },
   "devDependencies": {

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
 import {View, StyleSheet, PermissionsAndroid} from 'react-native';
 import {
@@ -13,13 +14,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { service } from '../repository';
+import {service} from '../repository';
+import $alert from '../helper/alert';
 
-
-const Confirm = ({route, navigation}) => {
-  const name = route.params?.name
-  const plan = route.params?.plan
+const Confirm = ({route, navigation}: any) => {
+  const name = route.params?.name;
+  const plan = route.params?.plan;
   const initialValue = {
+    userId: '',
     name: '',
     email: '',
     phone: '',
@@ -29,12 +31,15 @@ const Confirm = ({route, navigation}) => {
     message: '',
     lat: '',
     long: '',
+    status: 'pending',
   };
   const [form, setForm] = React.useState(initialValue);
   const [savedLocation, setLocation] = React.useState();
   const [loader, setLoader] = React.useState(false);
   React.useEffect(() => {
     async function getUser() {
+      const id = await AsyncStorage.getItem('uid');
+      setForm({...form, userId: id || ''});
       const dataObj = await AsyncStorage.getItem('user');
       if (dataObj) {
         const {name, email, phone, location} = JSON.parse(dataObj);
@@ -45,16 +50,15 @@ const Confirm = ({route, navigation}) => {
     getUser();
   }, []);
 
-  const services = function() {
+  const services = function () {
     if (plan) {
-      return [
-        {title: 'Monthly Plan'},
-        {title: 'Membership Plan'}
-      ]
-    }else{
-      return service.reduce((acc, cur) => {return [...acc,{title: cur}] },[])
+      return [{title: 'Monthly Plan'}, {title: 'Membership Plan'}];
+    } else {
+      return service.reduce((acc: any, cur) => {
+        return [...acc, {title: cur}];
+      }, []);
     }
-  }
+  };
 
   const submit = async () => {
     if (loader) {
@@ -66,17 +70,21 @@ const Confirm = ({route, navigation}) => {
       (form.location === '' && form.lat === '') ||
       (!plan && form.issue === '')
     ) {
-      alert('Fillup Required Fields!');
+      $alert('Fillup Required Fields!');
       setLoader(false);
       return;
     }
     try {
-      const data = await firestore().collection(!plan? 'orders' : 'plans').add(form);
+      // console.log(form);
+      await firestore()
+        .collection(!plan ? 'orders' : 'plans')
+        .add(form);
       setForm(initialValue);
-      alert('You order has been placed!');
+      $alert('You order has been placed!');
+      navigation.navigate('Home');
       setLoader(false);
     } catch (error) {
-      alert(error);
+      $alert(error);
       setLoader(false);
     }
   };
@@ -150,29 +158,27 @@ const Confirm = ({route, navigation}) => {
           onSelect={index =>
             setForm({...form, related_service: services()[index - 1].title})
           }>
-          {services().map((a,i) => (
+          {services().map((a, i) => (
             <SelectItem key={i} key={a} title={a.title} />
           ))}
         </Select>
-        {
-          !plan ? (
-            <>
-              <Text style={styles.inputLabel}>
-                Issues<Text style={{color: 'red'}}> (required)</Text>
-              </Text>
-              <Input
+        {!plan ? (
+          <>
+            <Text style={styles.inputLabel}>
+              Issues<Text style={{color: 'red'}}> (required)</Text>
+            </Text>
+            <Input
               style={styles.input}
               multiline={true}
               textStyle={{minHeight: 70}}
               placeholder="Type your devices problems"
               value={form.issue}
               onChangeText={value => setForm({...form, issue: value})}
-              />
-            </>
-          )
-          :
-          (<></>)
-        }
+            />
+          </>
+        ) : (
+          <></>
+        )}
         <Text style={styles.inputLabel}>Message</Text>
         <Input
           style={styles.input}
