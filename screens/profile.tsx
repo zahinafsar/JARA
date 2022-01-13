@@ -14,6 +14,7 @@ const initialValue = {
 function Profile({navigation}) {
   const [state, setState] = React.useContext(Context);
   const [form, setForm] = React.useState(initialValue);
+  const [edit, setEdit] = React.useState(true);
   React.useEffect(() => {
     // if (!state.uid) {
     //   setState({...state, loggedIn: 'notLoggedIn'});
@@ -38,6 +39,7 @@ function Profile({navigation}) {
   async function save() {
     const user = JSON.stringify(form);
     await AsyncStorage.setItem('user', user);
+    setEdit(true);
     alert('Information Saved!');
   }
   async function clear() {
@@ -49,6 +51,7 @@ function Profile({navigation}) {
     <View style={{flex: 1}}>
       <ScrollView style={{flex: 1}}>
         <Input
+          disabled={edit}
           style={styles.input}
           placeholder="Full Name"
           size="large"
@@ -56,6 +59,7 @@ function Profile({navigation}) {
           onChangeText={value => setForm({...form, name: value})}
         />
         <Input
+          disabled={edit}
           style={styles.input}
           placeholder="Email Address"
           size="large"
@@ -63,6 +67,7 @@ function Profile({navigation}) {
           onChangeText={value => setForm({...form, email: value})}
         />
         <Input
+          disabled={edit}
           style={styles.input}
           placeholder="Phone Number"
           size="large"
@@ -70,6 +75,7 @@ function Profile({navigation}) {
           onChangeText={value => setForm({...form, phone: value})}
         />
         <Input
+          disabled={edit}
           style={styles.input}
           placeholder="Location"
           size="large"
@@ -77,9 +83,15 @@ function Profile({navigation}) {
           onChangeText={value => setForm({...form, location: value})}
         />
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-          <Button style={styles.saveBtn} onPress={save}>
-            Save
-          </Button>
+          {!edit ? (
+            <Button style={styles.saveBtn} onPress={save}>
+              Save
+            </Button>
+          ) : (
+            <Button style={styles.saveBtn} onPress={() => setEdit(false)}>
+              Edit
+            </Button>
+          )}
           <Button style={styles.saveBtn} onPress={clear} status="warning">
             Clear
           </Button>

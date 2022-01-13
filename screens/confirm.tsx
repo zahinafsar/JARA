@@ -21,7 +21,6 @@ const Confirm = ({route, navigation}: any) => {
   const name = route.params?.name;
   const plan = route.params?.plan;
   const initialValue = {
-    userId: '',
     name: '',
     email: '',
     phone: '',
@@ -38,8 +37,6 @@ const Confirm = ({route, navigation}: any) => {
   const [loader, setLoader] = React.useState(false);
   React.useEffect(() => {
     async function getUser() {
-      const id = await AsyncStorage.getItem('uid');
-      setForm({...form, userId: id || ''});
       const dataObj = await AsyncStorage.getItem('user');
       if (dataObj) {
         const {name, email, phone, location} = JSON.parse(dataObj);
@@ -65,6 +62,11 @@ const Confirm = ({route, navigation}: any) => {
       return;
     }
     setLoader(true);
+    const id = await AsyncStorage.getItem('uid');
+    if (!id) {
+      $alert('Please try to login again!');
+      return;
+    }
     if (
       form.phone === '' ||
       (form.location === '' && form.lat === '') ||
@@ -78,7 +80,11 @@ const Confirm = ({route, navigation}: any) => {
       // console.log(form);
       await firestore()
         .collection(!plan ? 'orders' : 'plans')
-        .add(form);
+        .add({
+          ...form,
+          userId: id,
+          createdAt: firestore.FieldValue.serverTimestamp(),
+        });
       setForm(initialValue);
       $alert('You order has been placed!');
       navigation.navigate('Home');
