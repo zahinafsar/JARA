@@ -10,7 +10,7 @@ import {
   Divider,
 } from '@ui-kitten/components';
 import {theme} from '../../../theme';
-import { service } from '../../../repository';
+import {service} from '../../../repository';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const RightArrow = props => <Icon {...props} name="arrow-right-outline" />;
@@ -107,7 +107,10 @@ function Laptop({navigation}) {
         </Card>
       </ScrollView>
       <View>
-        <Button status="warning" onPress={() => navigation.navigate('confirm', {name: service[1]})}>
+        <Button
+          style={{borderRadius: 0}}
+          status="warning"
+          onPress={() => navigation.navigate('confirm', {name: service[1]})}>
           Next
         </Button>
       </View>

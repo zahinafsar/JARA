@@ -1,6 +1,15 @@
 import React from 'react';
-import {View, Image, StyleSheet, ScrollView, Linking} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
 import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
+import Ripple from 'react-native-material-ripple';
+import {theme} from '../theme';
 
 const hardware = [
   'Contacts assembling',
@@ -10,29 +19,60 @@ const hardware = [
   'Upgrade components',
 ];
 
-const Person = (props: any) => <Icon {...props} name="person-outline" />;
+const Person = (props: any) => (
+  <View
+    style={{
+      borderWidth: 1,
+      borderColor: 'black',
+      borderRadius: 50,
+      height: 40,
+      width: 40,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 20,
+    }}>
+    <Icon {...props} fill="black" name="person-outline" />
+  </View>
+);
 
-const Call = (props: any) => <Icon {...props} name="phone-call-outline" />;
+const Call = (props: any) => (
+  <Icon
+    width={30}
+    height={30}
+    // style={{width: 25, height: 20}}
+    fill={theme.primary_1}
+    {...props}
+    name="phone-call-outline"
+  />
+);
 
 const ContactButton = ({number}: any) => (
   <Button
     accessoryLeft={props => (
-      <View style={{flexDirection: 'row'}}>
-        <Person {...props} />
-        <Text style={{opacity: 0.5}}>+88{number}</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Person onPress={{}} {...props} />
+        <Text>+88{number}</Text>
       </View>
     )}
-    accessoryRight={Call}
+    accessoryRight={props => (
+      <TouchableOpacity onPress={() => Linking.openURL(`tel: ${number}`)}>
+        <Call {...props} />
+      </TouchableOpacity>
+    )}
     appearance="outline"
-    style={{marginBottom: 10, justifyContent: 'space-between'}}
-    status="primary"
-    onPress={() => Linking.openURL(`tel: ${number}`)}
+    style={{
+      marginVertical: 5,
+      justifyContent: 'space-between',
+      backgroundColor: 'white',
+      elevation: 3,
+    }}
+    status="control"
   />
 );
 function Contacts({navigation}) {
   return (
     <>
-      <View style={{margin: 5}}>
+      <View style={{padding: 5, backgroundColor: 'white', flex: 1}}>
         <ContactButton number="01819459974" />
         <ContactButton number="01717459483" />
         <ContactButton number="01557848523" />

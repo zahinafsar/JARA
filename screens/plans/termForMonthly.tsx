@@ -21,7 +21,7 @@ function TermsForMonthly({navigation}) {
     '৪ নং সমস্যা ব্যতিত বিনা কারণে call করা যাবে না।`',
   ];
   return (
-    <View style={{flex:1}}>
+    <View style={{flex: 1}}>
       <ScrollView>
         <View
           style={{
@@ -38,13 +38,15 @@ function TermsForMonthly({navigation}) {
                 <Text key={i} style={{marginVertical: 5}} key={i}>{`${
                   i + 1
                 })  ${a}`}</Text>
-                ))}
+              ))}
             </View>
           </View>
         </View>
       </ScrollView>
       <Button
-        onPress={() => navigation.navigate('confirm', {name: "Monthly Plan", plan: true})}
+        onPress={() =>
+          navigation.navigate('confirm', {name: 'Monthly Plan', plan: true})
+        }
         status="warning"
         style={styles.btn}>
         Next
@@ -55,6 +57,7 @@ function TermsForMonthly({navigation}) {
 
 const styles = StyleSheet.create({
   btn: {
+    borderRadius: 0,
     flex: 1,
     width: '100%',
     position: 'absolute',

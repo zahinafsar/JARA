@@ -49,7 +49,12 @@ function TermsForMember({navigation}) {
         </View>
       </ScrollView>
       <Button
-        onPress={() => navigation.navigate('confirm',{name: "Membership Plan", plan: 'true'})}
+        onPress={() =>
+          navigation.navigate('confirm', {
+            name: 'Membership Plan',
+            plan: 'true',
+          })
+        }
         status="warning"
         style={styles.btn}>
         Next
@@ -60,6 +65,7 @@ function TermsForMember({navigation}) {
 
 const styles = StyleSheet.create({
   btn: {
+    borderRadius: 0,
     flex: 1,
     width: '100%',
     position: 'absolute',

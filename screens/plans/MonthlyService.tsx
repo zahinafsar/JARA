@@ -72,7 +72,7 @@ function MonthlyService({navigation}) {
           <Text style={styles.title}>কেন ডাকবেন ?</Text>
         </Button>
         <Card style={{marginHorizontal: 13, paddingTop: 10}}>
-          {whyToCall.map((a,i) => (
+          {whyToCall.map((a, i) => (
             <RenderItem key={i} data={a} />
           ))}
         </Card>
@@ -84,7 +84,7 @@ function MonthlyService({navigation}) {
           <Text style={styles.title}>আমাদের সার্ভিস সমুহ</Text>
         </Button>
         <Card style={{marginHorizontal: 13, paddingTop: 10}}>
-          {services.map((a,i) => (
+          {services.map((a, i) => (
             <RenderItem key={i} data={a} />
           ))}
         </Card>
@@ -92,6 +92,7 @@ function MonthlyService({navigation}) {
       </ScrollView>
       <View>
         <Button
+          style={{borderRadius: 0}}
           status="warning"
           accessoryRight={Arrow}
           onPress={() => navigation.navigate('termsMonthly')}>

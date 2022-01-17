@@ -24,7 +24,7 @@ const windowWidth = Dimensions.get('window').width;
 const Home = ({navigation}) => {
   const AppLogo = () => (
     <Image
-      style={{width: 50, height: 50}}
+      style={{width: 55, height: 55}}
       source={require('../assets/logo.png')}
     />
   );
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   card: {
     // margin: 5,
     // elevation: 2,
-    width: windowWidth / 2 - 20,
+    width: windowWidth / 2 - 15,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -116,17 +116,10 @@ function CCTV({navigation}) {
         <Card style={styles.card}>
           <RenderItem data={rate} />
         </Card>
-        <Button
-          onPress={() => {
-            navigation.navigate('membership');
-          }}
-          status="warning"
-          style={{marginHorizontal: 13, marginBottom: 20, elevation: 5}}>
-          ১ বছরের Home Service মাত্র ১০০০/= টাকা
-        </Button>
       </ScrollView>
       <View>
         <Button
+          style={{borderRadius: 0}}
           status="warning"
           onPress={() => navigation.navigate('confirm', {name: service[3]})}>
           Next

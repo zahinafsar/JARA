@@ -58,6 +58,7 @@ function Membership({navigation}) {
       </ScrollView>
       <View>
         <Button
+          style={{borderRadius: 0}}
           status="warning"
           accessoryRight={Arrow}
           onPress={() => navigation.navigate('termsMember')}>
