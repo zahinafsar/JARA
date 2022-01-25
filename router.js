@@ -29,6 +29,7 @@ const Stack = createStackNavigator();
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import History from './screens/history';
+import ViewImage from './screens/ViewImage';
 
 function Router() {
   const [state] = React.useContext(Context);
@@ -119,20 +120,6 @@ function Router() {
             title: 'Monthly Service',
           }}
         />
-        {/* <Stack.Screen
-          name="confirmPlan"
-          component={ConfirmPlan}
-          options={{
-            title: 'Plan Confirmation',
-          }}
-        /> */}
-        {/* <Stack.Screen
-          name="procced"
-          component={Procced}
-          options={{
-            title: 'Confirmation',
-          }}
-        /> */}
         <Stack.Screen
           name="confirm"
           component={state.uid ? Confirm : Login}
@@ -155,13 +142,6 @@ function Router() {
             title: 'Terms and Conditions',
           }}
         />
-        {/* <Stack.Screen
-          name="terms"
-          component={TermsOfUse}
-          options={{
-            title: 'Terms and Conditions',
-          }}
-        /> */}
         <Stack.Screen name="contacts" component={Contacts} />
         <Stack.Screen
           name="profile"
@@ -169,6 +149,13 @@ function Router() {
           options={{
             headerShown: state.uid ? true : false,
           }}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="viewImage"
+          component={ViewImage}
         />
         <Stack.Screen
           name="call"

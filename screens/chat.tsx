@@ -7,9 +7,9 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
+  Image,
   RefreshControl,
 } from 'react-native';
-import {GiftedChat, Send, InputToolbar} from 'react-native-gifted-chat';
 import firestore from '@react-native-firebase/firestore';
 import {Button, Icon, Input, Spinner} from '@ui-kitten/components';
 import {Context} from '../store';
@@ -17,9 +17,11 @@ import {theme} from '../theme';
 import $alert from '../helper/alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import ImageUploader from '../helper/ImageUploader';
 
-function Chat() {
+function Chat({navigation}) {
   const [messages, setMessages] = useState([]);
+  const [imageloader, setImageLoader] = useState('');
   const [text, setText] = useState('');
   const [state, setState] = useContext(Context);
   const [last, setLast] = useState({});
@@ -97,6 +99,17 @@ function Chat() {
     }
   };
 
+  const handleImage = async () => {
+    setImageLoader(true);
+    try {
+      const image = await ImageUploader(state.uid);
+      await send(image, 'file');
+      setImageLoader(false);
+    } catch (error) {
+      setImageLoader(false);
+    }
+  };
+
   const send = async (message: any, type: 'text' | 'file') => {
     setText('');
     const id = await AsyncStorage.getItem('uid');
@@ -135,9 +148,25 @@ function Chat() {
                 flexDirection: item.isAdmin ? 'row' : 'row-reverse',
                 alignItems: 'center',
               }}>
-              <Text style={!item.isAdmin ? styles.myChat : styles.othersChat}>
-                {item.message}
-              </Text>
+              {!item.image ? (
+                <Text style={!item.isAdmin ? styles.myChat : styles.othersChat}>
+                  {item.message}
+                </Text>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('viewImage', item.image)}
+                  style={styles.image}>
+                  <Image
+                    style={{
+                      borderRadius: 20,
+                      width: '100%',
+                      height: '100%',
+                      resizeMode: 'contain',
+                    }}
+                    source={{uri: item.image}}
+                  />
+                </TouchableOpacity>
+              )}
               <Text style={{marginHorizontal: 10, opacity: 0.4, fontSize: 10}}>
                 {moment(item?.createdAt?.toDate()).fromNow()}
               </Text>
@@ -166,13 +195,19 @@ function Chat() {
               paddingLeft: 8,
               paddingTop: 3,
             }}>
-            <View style={styles.sendIcon}>
-              <Icon
-                style={{width: 30, height: 30}}
-                fill={theme.primary_1}
-                name="plus-circle"
-              />
-            </View>
+            {!imageloader ? (
+              <TouchableOpacity onPress={handleImage} style={styles.sendIcon}>
+                <Icon
+                  style={{width: 30, height: 30}}
+                  fill={theme.primary_1}
+                  name="plus-circle"
+                />
+              </TouchableOpacity>
+            ) : (
+              <View style={styles.sendIcon}>
+                <Spinner status="info" size="large" />
+              </View>
+            )}
             <TextInput
               value={text}
               onChangeText={v => setText(v)}
@@ -196,6 +231,10 @@ function Chat() {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    width: 130,
+    height: 130,
+  },
   loader: {
     position: 'absolute',
     width: '100%',
@@ -213,10 +252,7 @@ const styles = StyleSheet.create({
     width: 90,
   },
   chats: {
-    // flex: 1,
     backgroundColor: 'green',
-    // height: '100%',
-    // flexDirection: 'column-reverse',
     padding: 10,
   },
   myChat: {

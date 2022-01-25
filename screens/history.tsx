@@ -1,24 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, StyleSheet, ScrollView, Linking} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  RefreshControl,
+} from 'react-native';
 import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Divider from '../components/custom/Divider';
 import Ripple from 'react-native-material-ripple';
-
-const hardware = [
-  'Contacts assembling',
-  'Repair hardware components',
-  'Find & Fix unknown issues',
-  'PC cleaning',
-  'Upgrade components',
-];
-
+import moment from 'moment';
+import {SwipeListView} from 'react-native-swipe-list-view';
 const Service = (props: any) => (
   <Icon {...props} fill="black" name="shopping-bag-outline" />
 );
 
-const ServiceHistory = ({service, status}: any) => (
+const ServiceHistory = ({service, status, time}: any) => (
   <Button
     accessoryLeft={props => (
       <View style={{flexDirection: 'row'}}>
@@ -27,54 +27,114 @@ const ServiceHistory = ({service, status}: any) => (
       </View>
     )}
     accessoryRight={() => (
-      <Button status="info" size="tiny">
-        {status}
-      </Button>
+      <View style={{alignItems: 'center', flexDirection: 'row'}}>
+        <Text style={{opacity: 0.5, marginRight: 10, fontSize: 10}}>
+          {moment(time.toDate()).fromNow()}
+        </Text>
+        <Button
+          status={status === 'canceled' ? 'danger' : 'info'}
+          appearance="outline"
+          size="tiny">
+          {status}
+        </Button>
+      </View>
     )}
     appearance="outline"
     style={{
       marginVertical: 5,
       justifyContent: 'space-between',
       backgroundColor: 'white',
-      elevation: 3
+      elevation: 3,
     }}
     status="control"
   />
 );
 
 function History({navigation}) {
+  const [loader, setLoader] = useState(false);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      const id = await AsyncStorage.getItem('uid');
-      const orderData = await firestore().collection('orders');
-      orderData
-        .where('userId', '==', id)
-        .get()
-        .then(querySnapshot => {
-          const data = querySnapshot.docs.map(doc => {
-            return {...doc.data(), id: doc.id};
-          });
-          setOrders(data);
-          orders.map(r => {
-            console.log(r.status);
-          });
-        });
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const savenDays = firestore.Timestamp.fromDate(
+      new Date(moment().subtract(7, 'days').format()),
+    );
+    const id = await AsyncStorage.getItem('uid');
+    const orderData = await firestore().collection('orders');
+    orderData
+      .where('userId', '==', id)
+      .where('createdAt', '>=', savenDays)
+      .orderBy('createdAt', 'desc')
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => {
+          return {...doc.data(), id: doc.id};
+        });
+        setOrders(data);
+      });
+  };
+  const cencelOrder = async (id: string) => {
+    setLoader(true);
+    const order = await firestore().collection('orders').doc(id);
+    await order.update({status: 'canceled'});
+    setLoader(false);
+    fetchData();
+  };
 
   return (
     <>
       <View style={{padding: 5, backgroundColor: 'white', flex: 1}}>
-        {orders.map(order => (
-          <>
+        <View
+          style={{
+            height: 30,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text category="c1" style={{opacity: 0.5}}>
+            Swipe left to cencel order
+          </Text>
+          <Icon
+            fill="red"
+            name="close-circle-outline"
+            style={{width: 17, height: 17, marginLeft: 5}}
+          />
+        </View>
+        <SwipeListView
+          refreshControl={
+            <RefreshControl refreshing={loader} onRefresh={fetchData} />
+          }
+          data={orders}
+          renderItem={data => (
             <ServiceHistory
-              service={order.related_service}
-              status={order.status}
+              key={data.index}
+              service={data.item.related_service}
+              time={data.item.createdAt}
+              status={data.item.status}
             />
-          </>
-        ))}
+          )}
+          renderHiddenItem={data =>
+            data.item.status === 'pending' ? (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                }}>
+                <Button
+                  onPress={() => cencelOrder(data.item.id)}
+                  style={{marginRight: 10}}
+                  status="danger"
+                  size="tiny">
+                  Cancel
+                </Button>
+              </View>
+            ) : null
+          }
+          rightOpenValue={-85}
+        />
       </View>
     </>
   );
