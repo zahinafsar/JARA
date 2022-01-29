@@ -29,7 +29,7 @@ const ServiceHistory = ({service, status, time}: any) => (
     accessoryRight={() => (
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Text style={{opacity: 0.5, marginRight: 10, fontSize: 10}}>
-          {moment(time.toDate()).fromNow()}
+          {moment(time?.toDate()).fromNow()}
         </Text>
         <Button
           status={status === 'canceled' ? 'danger' : 'info'}
@@ -62,8 +62,8 @@ function History({navigation}) {
       new Date(moment().subtract(7, 'days').format()),
     );
     const id = await AsyncStorage.getItem('uid');
-    const orderData = await firestore().collection('orders');
-    orderData
+    const orderDB = await firestore().collection('orders');
+    orderDB
       .where('userId', '==', id)
       .where('createdAt', '>=', savenDays)
       .orderBy('createdAt', 'desc')
@@ -74,10 +74,27 @@ function History({navigation}) {
         });
         setOrders(data);
       });
+    const plansDB = await firestore().collection('plans');
+    plansDB
+      .where('userId', '==', id)
+      .where('status', '==', 'pending')
+      .get()
+      .then(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => {
+          return {...doc.data(), id: doc.id};
+        });
+        if (data.length) {
+          setOrders(prev => {
+            return [{...data[0], type: 'plan'}, ...prev];
+          });
+        }
+      });
   };
-  const cencelOrder = async (id: string) => {
+  const cencelOrder = async data => {
     setLoader(true);
-    const order = await firestore().collection('orders').doc(id);
+    const order = await firestore()
+      .collection(data.type === 'plan' ? 'plans' : 'orders')
+      .doc(data.id);
     await order.update({status: 'canceled'});
     setLoader(false);
     fetchData();
@@ -85,7 +102,7 @@ function History({navigation}) {
 
   return (
     <>
-      <View style={{padding: 5, backgroundColor: 'white', flex: 1}}>
+      <View style={{padding: 5, flex: 1}}>
         <View
           style={{
             height: 30,
@@ -124,7 +141,7 @@ function History({navigation}) {
                   justifyContent: 'center',
                 }}>
                 <Button
-                  onPress={() => cencelOrder(data.item.id)}
+                  onPress={() => cencelOrder(data.item)}
                   style={{marginRight: 10}}
                   status="danger"
                   size="tiny">

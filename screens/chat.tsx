@@ -122,7 +122,7 @@ function Chat({navigation}) {
     });
   };
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{flex: 1}}>
       {loader && (
         <View style={styles.loader}>
           <Text style={styles.loaderText}>loading...</Text>
@@ -236,6 +236,7 @@ const styles = StyleSheet.create({
     height: 130,
   },
   loader: {
+    opacity: 0.4,
     position: 'absolute',
     width: '100%',
     justifyContent: 'center',

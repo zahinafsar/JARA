@@ -60,7 +60,7 @@ function MonthlyService({navigation}) {
       <ScrollView>
         <View style={{alignItems: 'center'}}>
           <Image
-            style={{width: 250, height: 250, resizeMode: 'contain'}}
+            style={{width: 220, height: 220, marginVertical: 15, resizeMode: 'contain'}}
             source={require('../../assets/membership/monthly.png')}
           />
         </View>

@@ -77,7 +77,27 @@ const Confirm = ({route, navigation}: any) => {
       return;
     }
     try {
-      // console.log(form);
+      if (plan) {
+        const statuses = await firestore()
+          .collection('plans')
+          .where('userId', '==', id)
+          .get()
+          .then(querySnapshot => {
+            return querySnapshot.docs.map(doc => {
+              return doc.data().status;
+            });
+          });
+
+        if (statuses.includes('pending') || statuses.includes('active')) {
+          $alert(
+            `You already have ${
+              statuses.includes('pending') ? 'a pending' : 'an active'
+            } request!`,
+          );
+          setLoader(false);
+          return;
+        }
+      }
       await firestore()
         .collection(!plan ? 'orders' : 'plans')
         .add({

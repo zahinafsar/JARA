@@ -25,11 +25,11 @@ import {Context} from './store';
 import {service} from './repository';
 import {theme} from './theme';
 
-const Stack = createStackNavigator();
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import History from './screens/history';
 import ViewImage from './screens/ViewImage';
+const Stack = createStackNavigator();
 
 function Router() {
   const [state] = React.useContext(Context);
