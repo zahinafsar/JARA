@@ -14,6 +14,14 @@ import Divider from '../components/custom/Divider';
 import Ripple from 'react-native-material-ripple';
 import moment from 'moment';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {
+  getOrders,
+  getPlanRequests,
+  getServiceRequests,
+} from '../api/getRequests';
+import {getPlans} from '../api/getPlans';
+import {cancelPlanRequest, cancelServiceRequest} from '../api/cancelRequest';
+import { IRequest } from '../interface/order';
 const Service = (props: any) => (
   <Icon {...props} fill="black" name="shopping-bag-outline" />
 );
@@ -52,50 +60,42 @@ const ServiceHistory = ({service, status, time}: any) => (
 
 function History({navigation}) {
   const [loader, setLoader] = useState(false);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<IRequest[]>([]);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const savenDays = firestore.Timestamp.fromDate(
-      new Date(moment().subtract(7, 'days').format()),
-    );
-    const id = await AsyncStorage.getItem('uid');
-    const orderDB = await firestore().collection('orders');
-    orderDB
-      .where('userId', '==', id)
-      .where('createdAt', '>=', savenDays)
-      .orderBy('createdAt', 'desc')
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => {
-          return {...doc.data(), id: doc.id};
-        });
-        setOrders(data);
+    const orders = await getServiceRequests();
+    setOrders(orders);
+    const plans = await getPlanRequests();
+    if (plans.length) {
+      setOrders(prev => {
+        return [{...plans[0], type: 'plan'}, ...prev];
       });
-    const plansDB = await firestore().collection('plans');
-    plansDB
-      .where('userId', '==', id)
-      .where('status', '==', 'pending')
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => {
-          return {...doc.data(), id: doc.id};
-        });
-        if (data.length) {
-          setOrders(prev => {
-            return [{...data[0], type: 'plan'}, ...prev];
-          });
-        }
-      });
+    }
+    // plansDB
+    //   .where('userId', '==', id)
+    //   .where('status', '==', 'pending')
+    //   .get()
+    //   .then(querySnapshot => {
+    //     const data = querySnapshot.docs.map(doc => {
+    //       return {...doc.data(), id: doc.id};
+    //     });
+    //     if (data.length) {
+    //       setOrders(prev => {
+    //         return [{...data[0], type: 'plan'}, ...prev];
+    //       });
+    //     }
+    //   });
   };
-  const cencelOrder = async data => {
+  const cencelOrder = async (data: IRequest) => {
     setLoader(true);
-    const order = await firestore()
-      .collection(data.type === 'plan' ? 'plans' : 'orders')
-      .doc(data.id);
-    await order.update({status: 'canceled'});
+    if (data.type === 'plan') {
+      await cancelPlanRequest(data);
+    } else {
+      await cancelServiceRequest(data);
+    }
     setLoader(false);
     fetchData();
   };

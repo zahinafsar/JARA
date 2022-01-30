@@ -9,11 +9,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Input, Button, Spinner, Icon} from '@ui-kitten/components';
-import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Context} from '../store';
-import firestore from '@react-native-firebase/firestore';
 import {theme} from '../theme';
+import {sendOTP} from '../api/sendOTP';
+import $alert from '../helper/alert';
+import {setProfile} from '../api/setProfile';
 
 function Login({navigation}) {
   const [number, setNumber] = React.useState('');
@@ -22,11 +23,6 @@ function Login({navigation}) {
   const [disabled, setDisabled] = React.useState(false);
   const [loader, setLoader] = React.useState(false);
   const [state, setState] = useContext(Context);
-  const pulseIconRef = React.useRef();
-
-  React.useEffect(() => {
-    pulseIconRef.current.startAnimation();
-  }, []);
 
   async function signInWithPhoneNumber() {
     if (number.length !== 11) {
@@ -36,14 +32,14 @@ function Login({navigation}) {
     setDisabled(true);
     setLoader(true);
     try {
-      const confirmation = await auth().signInWithPhoneNumber('+88' + number);
+      const confirmation = await sendOTP('+88' + number);
       setConfirm(confirmation);
       setDisabled(false);
       setLoader(false);
     } catch (error) {
       console.log(error);
       setDisabled(false);
-      Alert.alert('Something went wrong! Try again.');
+      $alert('Something went wrong! Try again.');
       setLoader(false);
     }
   }
@@ -52,35 +48,30 @@ function Login({navigation}) {
   }
   async function confirmCode() {
     const token = await AsyncStorage.getItem('token');
-    // console.log(state.token);
     setDisabled(true);
     setLoader(true);
     try {
       await confirm.confirm(pin);
-      await firestore().collection('users').doc(number).set({
+      await setProfile(number, {
         name: '',
         token: token,
       });
+      // await firestore().collection('users').doc(number).set({
+      //   name: '',
+      //   token: token,
+      // });
       await AsyncStorage.setItem('uid', number);
       setState({...state, uid: number});
       navigation.navigate('Home');
     } catch (error) {
       console.log(error);
-      Alert.alert('Invalid Pin');
+      $alert('Invalid Pin');
       setDisabled(false);
       setLoader(false);
     }
   }
 
-  const Back = props => (
-    <Icon
-      ref={pulseIconRef}
-      animationConfig={{cycles: Infinity}}
-      animation="pulse"
-      {...props}
-      name="arrow-back-outline"
-    />
-  );
+  const Back = props => <Icon {...props} name="arrow-back-outline" />;
 
   return (
     <ImageBackground

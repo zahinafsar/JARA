@@ -26,7 +26,6 @@ function Chat({navigation}) {
   const [state, setState] = useContext(Context);
   const [last, setLast] = useState({});
   const [loader, seLoader] = useState(false);
-  const [yOffset, setyOffset] = useState(0);
   const pageLimit = 13;
 
   const db = firestore()
@@ -35,12 +34,9 @@ function Chat({navigation}) {
     .collection('messages');
 
   async function getNext() {
-    console.log('getting next data');
+    // console.log('getting next data');
     seLoader(true);
-    const data = await firestore()
-      .collection('chat')
-      .doc(state.uid)
-      .collection('messages')
+    const data = await db
       .orderBy('createdAt', 'desc')
       .startAfter(messages[messages.length - 1].createdAt)
       .limit(pageLimit)

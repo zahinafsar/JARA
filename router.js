@@ -147,6 +147,7 @@ function Router() {
           name="profile"
           component={state.uid ? Profile : Login}
           options={{
+            title: 'Profile',
             headerShown: state.uid ? true : false,
           }}
         />

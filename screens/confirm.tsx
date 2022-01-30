@@ -16,6 +16,9 @@ import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {service} from '../repository';
 import $alert from '../helper/alert';
+import {getPlans} from '../api/getPlans';
+import {addPlanRequest, addServiceRequest} from '../api/addRequest';
+import { getPlanRequests } from '../api/getRequests';
 
 const Confirm = ({route, navigation}: any) => {
   const name = route.params?.name;
@@ -78,33 +81,24 @@ const Confirm = ({route, navigation}: any) => {
     }
     try {
       if (plan) {
-        const statuses = await firestore()
-          .collection('plans')
-          .where('userId', '==', id)
-          .get()
-          .then(querySnapshot => {
-            return querySnapshot.docs.map(doc => {
-              return doc.data().status;
-            });
-          });
+        const plans = await getPlanRequests();
+        // console.log(plans);
 
-        if (statuses.includes('pending') || statuses.includes('active')) {
+        if (plans[0].status !== 'canceled') {
           $alert(
             `You already have ${
-              statuses.includes('pending') ? 'a pending' : 'an active'
+              plans[0].status === 'pending' ? 'a pending' : 'an active'
             } request!`,
           );
           setLoader(false);
           return;
         }
       }
-      await firestore()
-        .collection(!plan ? 'orders' : 'plans')
-        .add({
-          ...form,
-          userId: id,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-        });
+      if (!plan) {
+        await addServiceRequest(form);
+      } else {
+        await addPlanRequest(form);
+      }
       setForm(initialValue);
       $alert('You order has been placed!');
       navigation.navigate('Home');

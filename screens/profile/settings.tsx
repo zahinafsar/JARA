@@ -3,6 +3,7 @@ import {View, Image, StyleSheet, ScrollView, Linking, Text} from 'react-native';
 import {Button, Input, Divider} from '@ui-kitten/components';
 import {Context} from '../../store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import $alert from '../../helper/alert';
 
 const initialValue = {
   name: '',
@@ -40,12 +41,12 @@ function Settings({navigation}) {
     const user = JSON.stringify(form);
     await AsyncStorage.setItem('user', user);
     setEdit(true);
-    alert('Information Saved!');
+    $alert('Information Saved!');
   }
   async function clear() {
     setForm(initialValue);
     await AsyncStorage.removeItem('user');
-    alert('Information Removed!');
+    $alert('Information Removed!');
   }
   return (
     <View style={{flex: 1, marginTop: 10}}>

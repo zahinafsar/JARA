@@ -72,7 +72,7 @@ function ActivePlans({navigation}) {
       .then(querySnapshot => {
         querySnapshot.docs.map(doc => {
           setPlan(doc.data());
-          console.log(doc.data());
+          // console.log(doc.data());
           const oneYearInSecond = 31556926;
           const todaysInSecond = Date.now() / 1000;
           const activitionDate = doc.data()?.createdAt?.seconds;
@@ -94,7 +94,7 @@ function ActivePlans({navigation}) {
     fetchData();
   };
   if (!time && loader) {
-    console.log(loader, time);
+    // console.log(loader, time);
     return null;
   } else if (!loader && !time) {
     return (
@@ -107,8 +107,9 @@ function ActivePlans({navigation}) {
         }}>
         <Image
           style={{
-            width: 250,
-            height: 250,
+            marginBottom: 50,
+            width: 300,
+            height: 300,
             marginLeft: '8%',
             resizeMode: 'contain',
           }}
@@ -130,6 +131,7 @@ function ActivePlans({navigation}) {
       <>
         <View
           style={{
+            marginBottom: 50,
             padding: 5,
             flex: 1,
             alignItems: 'center',
@@ -168,7 +170,7 @@ function ActivePlans({navigation}) {
             appearance="outline"
             style={{
               position: 'absolute',
-              bottom: 20,
+              bottom: -20,
               marginVertical: 5,
               backgroundColor: 'white',
               elevation: 3,
