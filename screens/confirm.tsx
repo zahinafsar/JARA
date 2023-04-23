@@ -1,32 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect} from 'react';
-import {View, StyleSheet, PermissionsAndroid} from 'react-native';
-import {
-  Text,
-  Input,
-  Button,
-  Spinner,
-  Select,
-  SelectItem,
-} from '@ui-kitten/components';
-import ContactButtons from '../components/contactButtons';
+import React from 'react';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Input, Button, Spinner} from '@ui-kitten/components';
 import {ScrollView} from 'react-native-gesture-handler';
-import firestore from '@react-native-firebase/firestore';
 import Geolocation from '@react-native-community/geolocation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {service} from '../repository';
 import $alert from '../helper/alert';
-import {getPlans} from '../api/getPlans';
 import {addPlanRequest, addServiceRequest} from '../api/addRequest';
-import { getPlanRequests } from '../api/getRequests';
+import {getPlanRequests} from '../api/getRequests';
+import Icon from '../components/icon';
+import {theme} from '../theme';
 
 const Confirm = ({route, navigation}: any) => {
   const name = route.params?.name;
   const plan = route.params?.plan;
   const initialValue = {
-    name: '',
-    email: '',
-    phone: '',
     location: '',
     related_service: name || '',
     issue: '',
@@ -38,76 +27,63 @@ const Confirm = ({route, navigation}: any) => {
   const [form, setForm] = React.useState(initialValue);
   const [savedLocation, setLocation] = React.useState();
   const [loader, setLoader] = React.useState(false);
+
   React.useEffect(() => {
     async function getUser() {
       const dataObj = await AsyncStorage.getItem('user');
       if (dataObj) {
-        const {name, email, phone, location} = JSON.parse(dataObj);
+        const {location} = JSON.parse(dataObj);
         setLocation(location);
-        setForm({...form, name, email, phone, location});
       }
     }
     getUser();
   }, []);
 
-  const services = function () {
-    if (plan) {
-      return [{title: 'Monthly Plan'}, {title: 'Membership Plan'}];
-    } else {
-      return service.reduce((acc: any, cur) => {
-        return [...acc, {title: cur}];
-      }, []);
-    }
-  };
-
   const submit = async () => {
     if (loader) {
       return;
     }
-    setLoader(true);
     const id = await AsyncStorage.getItem('uid');
     if (!id) {
       $alert('Please try to login again!');
       return;
     }
-    if (
-      form.phone === '' ||
-      (form.location === '' && form.lat === '') ||
-      (!plan && form.issue === '')
-    ) {
-      $alert('Fillup Required Fields!');
+    if (!plan && !form.issue) {
+      $alert('Add your issue!');
       setLoader(false);
       return;
     }
+    if (!(form.lat || form.long || form.location)) {
+      $alert('Add your location!');
+      setLoader(false);
+      return;
+    }
+
     try {
+      setLoader(true);
       if (plan) {
         const plans = await getPlanRequests();
-        // console.log(plans);
-
-        if (plans[0].status !== 'canceled') {
-          $alert(
-            `You already have ${
-              plans[0].status === 'pending' ? 'a pending' : 'an active'
-            } request!`,
-          );
+        if (plans[0].status === 'pending') {
+          $alert('You already have a pending request!');
           setLoader(false);
           return;
         }
       }
-      if (!plan) {
-        await addServiceRequest(form);
+      if (plan) {
+        await addPlanRequest(form as any);
       } else {
-        await addPlanRequest(form);
+        await addServiceRequest(form as any);
       }
+      setLoader(false);
       setForm(initialValue);
       $alert('You order has been placed!');
       navigation.navigate('Home');
-      setLoader(false);
     } catch (error) {
-      $alert(error);
       setLoader(false);
+      $alert(error);
     }
   };
+
   function getLocation() {
     if (form.lat) {
       setForm({...form, location: savedLocation, lat: '', long: ''});
@@ -123,37 +99,23 @@ const Confirm = ({route, navigation}: any) => {
   return (
     <ScrollView>
       <View style={{margin: 10}}>
-        <ContactButtons navigation={navigation} />
-        <Text style={{textAlign: 'center'}}>Or</Text>
-        <Text style={styles.inputLabel}>Name</Text>
-        <Input
-          style={styles.input}
-          placeholder="Type your name"
-          size="medium"
-          value={form.name}
-          onChangeText={value => setForm({...form, name: value})}
-        />
-        <Text style={styles.inputLabel}>
-          Phone Number<Text style={{color: 'red'}}> (required)</Text>
-        </Text>
-        <Input
-          style={styles.input}
-          size="medium"
-          placeholder="017********"
-          value={form.phone}
-          onChangeText={value => setForm({...form, phone: value})}
-        />
-        <Text style={styles.inputLabel}>Email Address</Text>
-        <Input
-          style={styles.input}
-          size="medium"
-          placeholder="example@abc.xyz"
-          value={form.email}
-          onChangeText={value => setForm({...form, email: value})}
-        />
-        <Text style={styles.inputLabel}>
-          Location<Text style={{color: 'red'}}> (required)</Text>
-        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text>
+            <Text style={styles.inputLabel}>Location</Text>
+            <Text style={{fontSize: 12}}>
+              {' '}
+              (click the icon to add geo location)
+            </Text>
+          </Text>
+          <TouchableOpacity onPress={() => getLocation()}>
+            <Icon size={25} name="pin" fill={theme.primary_1} />
+          </TouchableOpacity>
+        </View>
         <View style={{alignItems: 'center'}}>
           <Input
             style={styles.input}
@@ -163,51 +125,32 @@ const Confirm = ({route, navigation}: any) => {
             value={form.lat ? `${form.lat}, ${form.long}` : form.location}
             onChangeText={value => setForm({...form, location: value})}
           />
-          <Button
-            onPress={() => getLocation()}
-            style={{width: 200, marginBottom: 5, borderRadius: 30}}>
-            <Text category="c1" style={{color: 'white'}}>
-              {form.lat ? 'Use Custom Location' : 'Use Geographic Location'}
-            </Text>
-          </Button>
         </View>
-        <Text style={styles.inputLabel}>Select Service</Text>
-        <Select
-          style={styles.input}
-          value={form.related_service}
-          onSelect={index =>
-            setForm({...form, related_service: services()[index - 1].title})
-          }>
-          {services().map((a, i) => (
-            <SelectItem key={i} key={a} title={a.title} />
-          ))}
-        </Select>
         {!plan ? (
           <>
-            <Text style={styles.inputLabel}>
-              Issues<Text style={{color: 'red'}}> (required)</Text>
-            </Text>
+            <Text style={styles.inputLabel}>Issues</Text>
             <Input
               style={styles.input}
               multiline={true}
-              textStyle={{minHeight: 70}}
+              numberOfLines={10}
               placeholder="Type your devices problems"
               value={form.issue}
               onChangeText={value => setForm({...form, issue: value})}
             />
           </>
         ) : (
-          <></>
+          <>
+            <Text style={styles.inputLabel}>Message</Text>
+            <Input
+              style={styles.input}
+              multiline={true}
+              numberOfLines={10}
+              placeholder="Type you message..."
+              value={form.message}
+              onChangeText={value => setForm({...form, message: value})}
+            />
+          </>
         )}
-        <Text style={styles.inputLabel}>Message</Text>
-        <Input
-          style={styles.input}
-          multiline={true}
-          textStyle={{minHeight: 70}}
-          placeholder="Type you message..."
-          value={form.message}
-          onChangeText={value => setForm({...form, message: value})}
-        />
       </View>
       <Button onPress={submit} style={{marginHorizontal: 10, marginBottom: 30}}>
         {!loader ? 'Submit' : <Spinner status="control" />}
@@ -221,8 +164,9 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   inputLabel: {
-    opacity: 0.8,
     marginLeft: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

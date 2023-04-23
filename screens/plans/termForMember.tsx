@@ -1,11 +1,8 @@
 import React from 'react';
-import {View, Image, StyleSheet, ScrollView} from 'react-native';
-import {Text, Button, Divider} from '@ui-kitten/components';
-import {Dimensions} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import {Text, Button} from '@ui-kitten/components';
 
 function TermsForMember({navigation}) {
-  const windowHeight = Dimensions.get('window').height;
-
   const terms = [
     'আপনার বাসায় যেয়ে Service.',
     '১,২,৩ বার তথা যতবার দরকার ততবার।',
@@ -29,18 +26,13 @@ function TermsForMember({navigation}) {
             margin: 5,
             marginBottom: 55,
           }}>
-          {/* <Text
-            style={{marginBottom: 20, textAlign: 'center', fontWeight: 'bold'}}
-            category="h6">
-            ১০০০ টাকায় ১ বছরের Home Service যতবার দরকার ততবার।
-          </Text> */}
           <View style={{backgroundColor: 'white', padding: 15}}>
             <Text style={{marginBottom: 5, fontWeight: 'bold'}}>
               Home Service এর কাজের পরিধিঃ
             </Text>
             <View>
               {terms.map((a, i) => (
-                <Text key={i} style={{marginVertical: 5}} key={i}>{`${
+                <Text key={i} style={{marginVertical: 5}}>{`${
                   i + 1
                 })  ${a}`}</Text>
               ))}

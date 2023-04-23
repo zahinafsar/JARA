@@ -1,27 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Linking,
-  RefreshControl,
-} from 'react-native';
-import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
-import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Divider from '../components/custom/Divider';
-import Ripple from 'react-native-material-ripple';
+import {View, RefreshControl} from 'react-native';
+import {Button, Icon, Text} from '@ui-kitten/components';
 import moment from 'moment';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {
-  getOrders,
-  getPlanRequests,
-  getServiceRequests,
-} from '../api/getRequests';
-import {getPlans} from '../api/getPlans';
-import {cancelPlanRequest, cancelServiceRequest} from '../api/cancelRequest';
-import { IRequest } from '../interface/order';
+import {getPlanRequests, getServiceRequests} from '../../api/getRequests';
+import {cancelPlanRequest, cancelServiceRequest} from '../../api/cancelRequest';
+import {IRequest} from '../../interface/order';
+import AppBar from '../../components/header';
 const Service = (props: any) => (
   <Icon {...props} fill="black" name="shopping-bag-outline" />
 );
@@ -58,7 +43,7 @@ const ServiceHistory = ({service, status, time}: any) => (
   />
 );
 
-function History({navigation}) {
+function Order({navigation}) {
   const [loader, setLoader] = useState(false);
   const [orders, setOrders] = useState<IRequest[]>([]);
   useEffect(() => {
@@ -74,20 +59,6 @@ function History({navigation}) {
         return [{...plans[0], type: 'plan'}, ...prev];
       });
     }
-    // plansDB
-    //   .where('userId', '==', id)
-    //   .where('status', '==', 'pending')
-    //   .get()
-    //   .then(querySnapshot => {
-    //     const data = querySnapshot.docs.map(doc => {
-    //       return {...doc.data(), id: doc.id};
-    //     });
-    //     if (data.length) {
-    //       setOrders(prev => {
-    //         return [{...data[0], type: 'plan'}, ...prev];
-    //       });
-    //     }
-    //   });
   };
   const cencelOrder = async (data: IRequest) => {
     setLoader(true);
@@ -157,6 +128,4 @@ function History({navigation}) {
   );
 }
 
-const styles = StyleSheet.create({});
-
-export default History;
+export default Order;

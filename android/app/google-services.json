@@ -50,6 +50,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566352919108:android:6fdac8a1189a933fba5a11",
+        "android_client_info": {
+          "package_name": "com.jaracomputers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566352919108-3hc45nbqj30v8len3fgpdnm6smaut4ij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDySzlu0jzXBG620B-DsFpZ6xMKmxLYyZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566352919108-3hc45nbqj30v8len3fgpdnm6smaut4ij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

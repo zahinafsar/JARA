@@ -3,7 +3,6 @@ import React from 'react';
 import {View, Image, StyleSheet, ScrollView} from 'react-native';
 import {theme} from '../../theme';
 import {Button, Icon, Card, Divider, Text} from '@ui-kitten/components';
-import ContactButtons from '../../components/contactButtons';
 
 const StarIcon = props => <Icon {...props} name="star" />;
 const Arrow = props => <Icon {...props} name="arrow-forward-outline" />;
@@ -36,17 +35,13 @@ function Membership({navigation}) {
   return (
     <>
       <ScrollView>
-        <View style={{alignItems: 'center'}}>
+        {/* <View style={{alignItems: 'center'}}>
           <Image
             style={{width: 250, height: 250, resizeMode: 'contain'}}
             source={require('../../assets/membership/member.png')}
           />
-        </View>
-        <Button
-          style={styles.button}
-          status="info"
-          accessoryLeft={StarIcon}
-          accessoryRight={StarIcon}>
+        </View> */}
+        <Button style={styles.button} status="info">
           <Text style={styles.title}>কেন ডাকবেন ?</Text>
         </Button>
         <Card style={{marginHorizontal: 13, paddingTop: 10}}>
@@ -54,7 +49,6 @@ function Membership({navigation}) {
             <RenderItem key={i} data={a} />
           ))}
         </Card>
-        {/* <ContactButtons navigation={navigation} /> */}
       </ScrollView>
       <View>
         <Button
@@ -71,7 +65,7 @@ function Membership({navigation}) {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 40,
+    // borderRadius: 40,
     marginTop: 10,
     margin: 13,
     backgroundColor: theme.primary_1,
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 13,
     paddingTop: 10,
     marginBottom: 10,
-    borderRadius: 10,
+    // borderRadius: 10,
     elevation: 2,
   },
 });

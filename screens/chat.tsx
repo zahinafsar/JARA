@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useCallback, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -8,16 +8,16 @@ import {
   FlatList,
   TextInput,
   Image,
-  RefreshControl,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {Button, Icon, Input, Spinner} from '@ui-kitten/components';
+import {Icon, Spinner} from '@ui-kitten/components';
 import {Context} from '../store';
 import {theme} from '../theme';
 import $alert from '../helper/alert';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import ImageUploader from '../helper/ImageUploader';
+import AppBar from '../components/header';
 
 function Chat({navigation}) {
   const [messages, setMessages] = useState([]);
@@ -34,7 +34,6 @@ function Chat({navigation}) {
     .collection('messages');
 
   async function getNext() {
-    // console.log('getting next data');
     seLoader(true);
     const data = await db
       .orderBy('createdAt', 'desc')
@@ -74,13 +73,6 @@ function Chat({navigation}) {
     return () => subscribe();
   }, []);
 
-  // const onScroll = (e: any) => {
-  //   if (yOffset <= 0 && e.nativeEvent.contentOffset.y > 0) {
-  //     console.log('getting next data');
-  //     getNext();
-  //   }
-  //   setyOffset(e.nativeEvent.contentOffset.y);
-  // };
   const isCloseToBottom = ({
     layoutMeasurement,
     contentOffset,
@@ -107,122 +99,129 @@ function Chat({navigation}) {
   };
 
   const send = async (message: any, type: 'text' | 'file') => {
-    setText('');
-    const id = await AsyncStorage.getItem('uid');
-    await db.add({
-      message: type === 'text' ? message : '',
-      image: type === 'file' ? message : '',
-      sendFrom: id,
-      isAdmin: false,
-      createdAt: firestore.FieldValue.serverTimestamp(),
-    });
+    if (message) {
+      setText('');
+      const id = await AsyncStorage.getItem('uid');
+      await db.add({
+        message: type === 'text' ? message : '',
+        image: type === 'file' ? message : '',
+        sendFrom: id,
+        isAdmin: false,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+      });
+    }
   };
   return (
-    <View style={{flex: 1}}>
-      {loader && (
-        <View style={styles.loader}>
-          <Text style={styles.loaderText}>loading...</Text>
-        </View>
-      )}
-      <FlatList
-        inverted={true}
-        onScroll={({nativeEvent}) => {
-          if (isCloseToBottom(nativeEvent)) {
-            getNext();
-          }
-        }}
-        data={messages}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}: any) => (
+    <>
+      <AppBar back />
+      <View style={{flex: 1}}>
+        {loader && (
+          <View style={styles.loader}>
+            <Text style={styles.loaderText}>loading...</Text>
+          </View>
+        )}
+        <FlatList
+          inverted={true}
+          onScroll={({nativeEvent}) => {
+            if (isCloseToBottom(nativeEvent)) {
+              getNext();
+            }
+          }}
+          data={messages}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item}: any) => (
+            <View
+              style={{
+                padding: 10,
+                alignItems: !item.isAdmin ? 'flex-end' : 'flex-start',
+              }}>
+              <View
+                style={{
+                  flexDirection: item.isAdmin ? 'row' : 'row-reverse',
+                  alignItems: 'center',
+                }}>
+                {!item.image ? (
+                  <Text
+                    style={!item.isAdmin ? styles.myChat : styles.othersChat}>
+                    {item.message}
+                  </Text>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('viewImage', item.image)}
+                    style={styles.image}>
+                    <Image
+                      style={{
+                        // borderRadius: 20,
+                        width: '100%',
+                        height: '100%',
+                        resizeMode: 'contain',
+                      }}
+                      source={{uri: item.image}}
+                    />
+                  </TouchableOpacity>
+                )}
+                <Text
+                  style={{marginHorizontal: 10, opacity: 0.4, fontSize: 10}}>
+                  {moment(item?.createdAt?.toDate()).fromNow()}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
+        <View>
           <View
             style={{
-              padding: 10,
-              alignItems: !item.isAdmin ? 'flex-end' : 'flex-start',
+              bottom: 0,
+              height: 80,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
             <View
               style={{
-                flexDirection: item.isAdmin ? 'row' : 'row-reverse',
+                width: '95%',
+                flexDirection: 'row',
                 alignItems: 'center',
+                justifyContent: 'space-between',
+                borderColor: 'gray',
+                borderWidth: 1.5,
+                // borderRadius: 50,
+                paddingLeft: 8,
+                paddingTop: 3,
               }}>
-              {!item.image ? (
-                <Text style={!item.isAdmin ? styles.myChat : styles.othersChat}>
-                  {item.message}
-                </Text>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('viewImage', item.image)}
-                  style={styles.image}>
-                  <Image
-                    style={{
-                      borderRadius: 20,
-                      width: '100%',
-                      height: '100%',
-                      resizeMode: 'contain',
-                    }}
-                    source={{uri: item.image}}
+              {!imageloader ? (
+                <TouchableOpacity onPress={handleImage} style={styles.sendIcon}>
+                  <Icon
+                    style={{width: 30, height: 30}}
+                    fill={theme.primary_1}
+                    name="plus-circle"
                   />
                 </TouchableOpacity>
+              ) : (
+                <View style={styles.sendIcon}>
+                  <Spinner status="info" size="large" />
+                </View>
               )}
-              <Text style={{marginHorizontal: 10, opacity: 0.4, fontSize: 10}}>
-                {moment(item?.createdAt?.toDate()).fromNow()}
-              </Text>
-            </View>
-          </View>
-        )}
-      />
-      <View>
-        <View
-          style={{
-            bottom: 0,
-            height: 80,
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              width: '95%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderColor: 'gray',
-              borderWidth: 1.5,
-              borderRadius: 50,
-              paddingLeft: 8,
-              paddingTop: 3,
-            }}>
-            {!imageloader ? (
-              <TouchableOpacity onPress={handleImage} style={styles.sendIcon}>
+              <TextInput
+                value={text}
+                onChangeText={v => setText(v)}
+                multiline
+                style={{height: 50, width: '75%'}}
+              />
+              <TouchableOpacity
+                onPress={() => send(text, 'text')}
+                style={styles.sendIcon}>
                 <Icon
-                  style={{width: 30, height: 30}}
+                  style={{width: 30, height: 30, marginRight: 10}}
                   fill={theme.primary_1}
-                  name="plus-circle"
+                  name="paper-plane-outline"
                 />
               </TouchableOpacity>
-            ) : (
-              <View style={styles.sendIcon}>
-                <Spinner status="info" size="large" />
-              </View>
-            )}
-            <TextInput
-              value={text}
-              onChangeText={v => setText(v)}
-              multiline
-              style={{height: 50, width: '75%'}}
-            />
-            <TouchableOpacity
-              onPress={() => send(text, 'text')}
-              style={styles.sendIcon}>
-              <Icon
-                style={{width: 30, height: 30, marginRight: 10}}
-                fill={theme.primary_1}
-                name="paper-plane-outline"
-              />
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     textAlign: 'center',
     borderColor: 'black',
-    borderRadius: 10,
+    // borderRadius: 10,
     paddingVertical: 2,
     borderWidth: 1,
     width: 90,
@@ -257,7 +256,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.primary_1,
     padding: 10,
     maxWidth: '80%',
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   othersChat: {
     color: 'black',
@@ -265,10 +264,10 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     borderWidth: 1,
     borderColor: 'gray',
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   sendIcon: {
-    borderRadius: 50,
+    // borderRadius: 50,
   },
   icon: {
     position: 'absolute',

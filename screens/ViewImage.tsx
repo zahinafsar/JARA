@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Image, View} from 'react-native';
 import {Button, Icon} from '@ui-kitten/components';

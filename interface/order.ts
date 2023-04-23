@@ -1,5 +1,5 @@
 export type plans = 'Membership Plan' | 'Monthly Service';
-export type status = 'pending' | 'cenceled' | 'completed' | 'active';
+export type status = 'pending' | 'canceled' | 'completed' | 'active';
 
 export type service =
   | 'Computer Service'

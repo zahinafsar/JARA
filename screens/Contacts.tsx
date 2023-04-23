@@ -1,30 +1,14 @@
 import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Linking,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
-import Ripple from 'react-native-material-ripple';
+import {View, Linking, TouchableOpacity} from 'react-native';
+import {Button, Icon, Text} from '@ui-kitten/components';
 import {theme} from '../theme';
-
-const hardware = [
-  'Contacts assembling',
-  'Repair hardware components',
-  'Find & Fix unknown issues',
-  'PC cleaning',
-  'Upgrade components',
-];
 
 const Person = (props: any) => (
   <View
     style={{
       borderWidth: 1,
       borderColor: 'black',
-      borderRadius: 50,
+      // borderRadius: 50,
       height: 40,
       width: 40,
       justifyContent: 'center',
@@ -39,7 +23,6 @@ const Call = (props: any) => (
   <Icon
     width={30}
     height={30}
-    // style={{width: 25, height: 20}}
     fill={theme.primary_1}
     {...props}
     name="phone-call-outline"
@@ -83,6 +66,5 @@ function Contacts({navigation}) {
   );
 }
 
-const styles = StyleSheet.create({});
 
 export default Contacts;

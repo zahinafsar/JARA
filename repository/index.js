@@ -4,5 +4,5 @@ export const service = [
   'Printer Service',
   'CCTV Setup',
   'Network Setup',
-  'Web Development'
-]
+  'Web Development',
+];

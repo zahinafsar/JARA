@@ -1,59 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import CountDown from 'react-native-countdown-component';
-import {
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Linking,
-  RefreshControl,
-} from 'react-native';
-import {Button, ButtonProps, Icon, Text} from '@ui-kitten/components';
+import {View, Image} from 'react-native';
+import {Button, Icon, Text} from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Divider from '../components/custom/Divider';
-import Ripple from 'react-native-material-ripple';
-import moment from 'moment';
-import {SwipeListView} from 'react-native-swipe-list-view';
 import $alert from '../../helper/alert';
 import {theme} from '../../theme';
+
 const Service = (props: any) => (
   <Icon {...props} fill="black" name="shopping-bag-outline" />
 );
 
-const Plans = ({service, status, time}: any) => (
-  <Button
-    accessoryLeft={props => (
-      <View style={{flexDirection: 'row'}}>
-        <Service {...props} />
-        <Text>{service}</Text>
-      </View>
-    )}
-    accessoryRight={() => (
-      <View style={{alignItems: 'center', flexDirection: 'row'}}>
-        <Text style={{opacity: 0.5, marginRight: 10, fontSize: 10}}>
-          {moment(time.toDate()).fromNow()}
-        </Text>
-        <Button
-          status={status === 'canceled' ? 'danger' : 'info'}
-          appearance="outline"
-          size="tiny">
-          {status}
-        </Button>
-      </View>
-    )}
-    appearance="outline"
-    style={{
-      marginVertical: 5,
-      justifyContent: 'space-between',
-      backgroundColor: 'white',
-      elevation: 3,
-    }}
-    status="control"
-  />
-);
-
-function ActivePlans({navigation}) {
+function Plan({navigation}) {
   const [loader, setLoader] = useState(false);
   const [plan, setPlan] = useState();
   const [time, setTime] = useState(0);
@@ -86,15 +44,8 @@ function ActivePlans({navigation}) {
         setLoader(false);
       });
   };
-  const cencelOrder = async (id: string) => {
-    setLoader(true);
-    const order = await firestore().collection('orders').doc(id);
-    await order.update({status: 'canceled'});
-    setLoader(false);
-    fetchData();
-  };
+
   if (!time && loader) {
-    // console.log(loader, time);
     return null;
   } else if (!loader && !time) {
     return (
@@ -105,16 +56,6 @@ function ActivePlans({navigation}) {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Image
-          style={{
-            marginBottom: 50,
-            width: 300,
-            height: 300,
-            marginLeft: '8%',
-            resizeMode: 'contain',
-          }}
-          source={require('../../assets/profile/notFound.png')}
-        />
         <Button
           onPress={() => {
             navigation.navigate('Home');
@@ -232,6 +173,4 @@ function ActivePlans({navigation}) {
   }
 }
 
-const styles = StyleSheet.create({});
-
-export default ActivePlans;
+export default Plan;

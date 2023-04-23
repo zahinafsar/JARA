@@ -5,7 +5,7 @@ import {View, Image, StyleSheet} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import {theme} from '../../theme';
 
-function MyCard({onPress, title, subtitle, image, style}) {
+function MyCard({onPress, title, subtitle, style}) {
   return (
     <Ripple style={style} onPress={onPress}>
       <Card style={styles.card}>
@@ -28,7 +28,7 @@ function MyCard({onPress, title, subtitle, image, style}) {
             {subtitle}
           </Text>
         </View>
-        <Image style={styles.image} source={image} />
+        {/* <Image style={styles.image} source={image} /> */}
       </Card>
     </Ripple>
   );
